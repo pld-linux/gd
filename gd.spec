@@ -5,8 +5,9 @@ Version:	1.6.3
 Release:	2
 License:	BSD-style
 Group:		Libraries
+Group(fr):	Librairies
 Group(pl):	Biblioteki
-Source:		ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
 URL:		http://www.boutell.com/gd/
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
@@ -25,6 +26,7 @@ graficznymi w formacie PNG.
 Summary:	Development part of the GD library
 Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów.
 Group:		Development/Libraries
+Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
 
@@ -33,15 +35,16 @@ This package contains the files needed for development of programs
 linked against GD.
 
 %description -l pl devel
-Pakiet ten zawiera pliki potrzebne do rozwoju programów
-korzystaj±cych z biblioteki GD.
+Pakiet ten zawiera pliki potrzebne do rozwoju programów korzystaj±cych
+z biblioteki GD.
 
 %package static
-Summary:        Static GD library
-Summary(pl):    Statyczna biblioteka GD.
-Group:          Development/Libraries
-Group(pl):      Programowanie/Biblioteki
-Requires:       %{name} = %{version}
+Summary:	Static GD library
+Summary(pl):	Statyczna biblioteka GD.
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name} = %{version}
 
 %description devel
 This package contains static GD library.
