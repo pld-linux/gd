@@ -45,11 +45,12 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /sbin/ldconfig
 
 %files
-/usr/lib/*.so.*
+%attr(755, root, root) /usr/lib/*.so.*
 
 %files devel
+%defattr(644, root, root, 755)
 %doc readme.txt index.html
-/usr/lib/*.so
+%attr(755, root, root) /usr/lib/*.so
 /usr/include/*
 
 %changelog
