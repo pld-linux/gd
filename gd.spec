@@ -5,8 +5,9 @@ Version:	1.8.3
 Release:	4
 License:	BSD-style
 Group:		Libraries
-Group(pl):	Biblioteki
+Group(de):	Libraries
 Group(fr):	Librairies
+Group(pl):	Biblioteki
 Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
 Patch0:		%{name}-ac_am.patch
 URL:		http://www.boutell.com/gd/
@@ -40,8 +41,9 @@ graficznymi w formacie PNG.
 Summary:	Development part of the GD library
 Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
 Group:		Development/Libraries
-Group(pl):	Programowanie/Biblioteki
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
 Requires:	libpng-devel
 Requires:	zlib-devel
 Requires:	%{name} = %{version}
@@ -58,8 +60,9 @@ z biblioteki GD.
 Summary:	Static GD library
 Summary(pl):	Statyczna biblioteka GD
 Group:		Development/Libraries
-Group(pl):	Programowanie/Biblioteki
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
 
 %description devel
@@ -86,12 +89,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
         DESTDIR=$RPM_BUILD_ROOT
 
-strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/lib*.so.*.*
-
 gzip -9nf readme.txt index.html 
 
 %clean
-rm -fr $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
