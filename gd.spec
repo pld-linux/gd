@@ -1,6 +1,7 @@
 #
 # Conditional build:
-%bcond_without	xpm	# without XPM support (requires X11 libs)
+%bcond_without	fontconfig	# without fontconfig support
+%bcond_without	xpm		# without XPM support (requires X11 libs)
 #
 Summary:	Library for PNG, JPEG creation
 Summary(es):	Biblioteca para manipulación de imágenes
@@ -19,14 +20,13 @@ URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
-BuildRequires:	fontconfig-devel
+%{?with_fontconfig:BuildRequires:	fontconfig-devel}
 BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	zlib-devel
-%{!?with_xpm:BuildConflicts:	XFree86-devel}
 Provides:	gd(gif) = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -148,7 +148,9 @@ para uso pelos programas que usam a libgd.
 %{__automake}
 %{__autoheader}
 %{__autoconf}
-%configure
+%configure \
+	%{!?with_fontconfig:--without-fontconfig} \
+	%{!?with_xpm:--without-xpm}
 %{__make}
 
 %install
