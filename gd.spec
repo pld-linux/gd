@@ -18,6 +18,7 @@ Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.15_gif_030616.gz
 Patch1:		%{name}-gif-am.patch
 Patch2:		%{name}-fontpath.patch
 Patch3:		%{name}-no_ldflags_in_gdlib-config.patch
+Patch4:		%{name}-freetype_includes.patch
 URL:		http://www.boutell.com/gd/
 %{!?_without_xpm:BuildRequires:	XFree86-devel}
 %{?_without_xpm:BuildConflicts:	XFree86-devel}
@@ -147,6 +148,7 @@ para uso pelos programas que usam a libgd.
 %endif
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__libtoolize}
