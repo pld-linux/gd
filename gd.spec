@@ -1,5 +1,6 @@
 #
-%bcond_without	gif	# without GIF support (patch from http://www.rhyme.com.au/gd/)
+# Conditional build:
+%bcond_without	gif	# without GIF support (based on patch from http://www.rhyme.com.au/gd/)
 %bcond_without	lzw	# without LZW compression in GIF creation functions
 %bcond_without	xpm	# without XPM support (requires X11 libs)
 #
@@ -8,18 +9,19 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.22
-Release:	2
+Version:	2.0.23
+Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	e1a41daf3bfc221afaf56751dc506f95
+# Source0-md5:	3bcd6daef3eb7b31ddc68a7d54b98c15
 # based on:
 #Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.15_gif_030801.gz
+# current version is patch_gd2.0.21_gif_040120.gz, but it doesn't support
+# gdImageCreateFromGifPtr() and still has close bug
 Patch0:		%{name}-gif.patch
 Patch1:		%{name}-fontpath.patch
 Patch2:		%{name}-no_ldflags_in_gdlib-config.patch
-Patch3:		%{name}-return.patch
 URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
 %{!?with_xpm:BuildConflicts:	XFree86-devel}
@@ -76,7 +78,7 @@ Summary(es):	Archivos de inclusión y bibliotecas para desarrollar programas usan
 Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
 Summary(pt_BR):	Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 %{?with_xpm:Requires:	XFree86-devel}
 Requires:	freetype-devel >= 2.0
 Requires:	libjpeg-devel
@@ -105,7 +107,7 @@ Summary:	Static GD library
 Summary(pl):	Statyczna biblioteka GD
 Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com libgd
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 %{?with_gif:Provides:	gd-static(gif) = %{version}-%{release}}
 
 %description static
@@ -124,7 +126,7 @@ Summary(es):	Programas utilitarios libgd
 Summary(pl):	Narzêdzia u¿ywaj±ce libgd
 Summary(pt_BR):	Programas utilitários libgd
 Group:		Applications/Graphics
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 %{?with_gif:Provides:	gd-progs(gif) = %{version}-%{release}}
 
 %description progs
@@ -146,7 +148,6 @@ para uso pelos programas que usam a libgd.
 %{?with_gif:%patch0 -p1}
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__libtoolize}
