@@ -11,7 +11,7 @@ Version:	2.0.11
 Release:	1
 License:	BSD-like
 Group:		Libraries
-Source0:	http://www.boutell.com/ftp-materials/boutell/gd/%{name}-%{version}.tar.gz
+Source0:	http://www.boutell.com/gd/html/%{name}-%{version}.tar.gz
 #updated from http://downloads.rhyme.com.au/gd/patch_%{name}2.0.7_gif_20021118.gz
 Patch0:		%{name}-gif.patch
 Patch1:		%{name}-fontpath.patch
