@@ -26,7 +26,7 @@ w formacie GIF.
 Summary:	Development part of the GD library
 Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów.
 Group:		Development/Libraries
-Group(pl):	Development/Libraries
+Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
 
 %description devel
