@@ -1,13 +1,14 @@
 Summary:	Library for PNG creation
 Summary(pl):	Biblioteka do tworzenia PNGów
 Name:		gd
-Version:	1.6.3
-Release:	2
+Version:	1.8.2
+Release:	1
 License:	BSD-style
 Group:		Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
+Patch0:		gd-pld-patch
 URL:		http://www.boutell.com/gd/
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
@@ -54,40 +55,53 @@ Pakiet ten zawiera statyczn± bibliotekê GD.
 
 %prep
 %setup -q 
+%patch0 -p1 
 
 %build
 CFLAGS="$RPM_OPT_FLAGS -I/usr/include/freetype"
 LDFLAGS="-s"
 export CFLAGS LDFLAGS
-%configure
-make
+gcc -shared -o libgd.so.%{version} -Wl,-soname=libgd.so.%{shlibver} \
+        `ar t libgd.a` -L/usr/X11R6/lib -lttf -ljpeg -lpng -lz -lm
+
 
 %install
-rm -rf $RPM_BUILD_ROOT
 
-make DESTDIR="$RPM_BUILD_ROOT" install
+
+[ "$RPM_BUILD_ROOT" != "/" ] && rm -fr $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_includedir},%{_libdir}}
+make install \
+        INSTALL_BIN=$RPM_BUILD_ROOT%{_bindir} \
+        INSTALL_INCLUDE=$RPM_BUILD_ROOT%{_includedir} \
+        INSTALL_LIB=$RPM_BUILD_ROOT%{_libdir}
+install -m 755 libgd.so.%{version} $RPM_BUILD_ROOT%{_libdir}/
+ln -s libgd.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgd.so
+
+
+#make DESTDIR="$RPM_BUILD_ROOT" install
 
 strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/lib*.so.*.*
 
-gzip -9nf NEWS README index.html 
+gzip -9nf readme.txt index.html 
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+[ "$RPM_BUILD_ROOT" != "/" ] && rm -fr $RPM_BUILD_ROOT
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc {NEWS,README}.gz
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/*.so.*.*
+%doc readme.txt.gz
+%{_bindir}/*
+%{_libdir}/*.so.*
+
 
 %files devel
 %defattr(644,root,root,755)
 %doc index.html.gz 
-%attr(755,root,root) %{_libdir}/*.so
-%attr(755,root,root) %{_libdir}/libgd.la
+%{_libdir}/*.so
+%{_libdir}/*.a
 %{_includedir}/*
 
 %files static
