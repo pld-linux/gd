@@ -128,7 +128,7 @@ para uso pelos programas que usam a libgd.
 %patch0 -p1
 
 %build
-libtoolize --copy --force
+%{__libtoolize}
 aclocal
 %{__automake}
 %{__autoconf}
