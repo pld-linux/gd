@@ -7,17 +7,15 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.1
-Release:	7
+Version:	2.0.9
+Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/ftp-materials/boutell/gd/%{name}-%{version}.tar.gz
-Patch0:		%{name}-ac_am.patch
-Patch1:		http://downloads.rhyme.com.au/gd/patch_%{name}%{version}_gif_20011107.gz
-Patch2:		%{name}-gif-acam.patch
-Patch3:		%{name}-fontpath.patch
-Patch4:		%{name}-gdTiled-segv.patch
-Patch5:		%{name}-fixes.patch
+#updated from http://downloads.rhyme.com.au/gd/patch_%{name}2.0.7_gif_20021118.gz
+Patch0:		%{name}-gif.patch
+Patch1:		%{name}-fontpath.patch
+Patch2:		%{name}-fixes.patch
 URL:		http://www.boutell.com/gd/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -140,12 +138,9 @@ para uso pelos programas que usam a libgd.
 
 %prep
 %setup -q
-%patch0 -p1
-%{!?_without_gif:%patch1 -p1}
-%{!?_without_gif:%patch2 -p1}
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%{!?_without_gif:%patch0 -p1}
+%patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -170,12 +165,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc readme.txt
+%doc COPYING index.html
 %attr(755,root,root) %{_libdir}/*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%doc index.html
+%attr(755,root,root) %{_bindir}/gdlib-config
 %attr(755,root,root) %{_libdir}/*.so
 %{_libdir}/*.la
 %{_includedir}/*
@@ -186,4 +181,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files progs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/[!g]*
+%{!?_without_gif:%attr(755,root,root) %{_bindir}/gif*}
+%attr(755,root,root) %{_bindir}/gd[!l]*
