@@ -2,7 +2,7 @@ Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	1.8.4
-Release:	1
+Release:	2
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
@@ -17,7 +17,7 @@ BuildRequires:	libtool
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	freetype-devel
+BuildRequires:	freetype1-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define shlibver %(echo %{version} | cut -f-2 -d.)
