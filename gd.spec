@@ -8,12 +8,12 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.21
+Version:	2.0.22
 Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	3134158635f5048dba99281c6b712a54
+# Source0-md5:	e1a41daf3bfc221afaf56751dc506f95
 # based on:
 #Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.15_gif_030801.gz
 Patch0:		%{name}-gif.patch
