@@ -46,7 +46,7 @@ korzystaj±cych z biblioteki GD.
 %build
 CFLAGS="$RPM_OPT_FLAGS" make
 
-insytall %{SOURCE1} .
+install %{SOURCE1} .
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -68,7 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc readme.txt index.html gd-ref.html
+%doc readme.txt.gz index.html gd-ref.html
 %attr(755,root,root) /usr/lib/*.so
 /usr/include/*
 
