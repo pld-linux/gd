@@ -2,32 +2,35 @@ Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	1.8.3
-Release: 	3
+Release:	3
 License:	BSD-style
 Group:		Libraries
-Group(fr):	Librairies
 Group(pl):	Biblioteki
+Group(fr):	Librairies
 Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
-Patch0:		gd-pld-patch
+Patch0:		%{name}-ac_am.patch
 URL:		http://www.boutell.com/gd/
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool
 BuildRequires:	zlib-devel
-BuildRequires:	libpng >= 1.0.8
+BuildRequires:	libpng-devel
 BuildRequires:	freetype-devel
-BuildRequires:	libjpeg-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define shlibver %(echo %{version} | cut -f-2 -d.)
 
 %description
-gd library creates PNG, JPEG and WBMP images, not GIF images. This is a
-good thing. PNG is a more compact format, and full compression is available.
-JPEG works well with photographic images, and is still more compatible with
-the major Web browsers than even PNG is. WBMP is intended for wireless
-devices (not regular web browsers). Existing code will need modification to
-call or gdImageJpeg instead of gdImageGif.
+gd library creates PNG, JPEG and WBMP images, not GIF images. This is
+a good thing. PNG is a more compact format, and full compression is
+available. JPEG works well with photographic images, and is still more
+compatible with the major Web browsers than even PNG is. WBMP is
+intended for wireless devices (not regular web browsers). Existing
+code will need modification to call or gdImageJpeg instead of
+gdImageGif.
 
-This library allows you to easily create and manipulate PNG, JPEG image
-files from your C programs.
+This library allows you to easily create and manipulate PNG, JPEG
+image files from your C programs.
 
 %description -l pl
 Biblioteka pozwalaj±ca na proste tworzenie i manipulowanie plikami
@@ -37,8 +40,8 @@ graficznymi w formacie PNG.
 Summary:	Development part of the GD library
 Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
 Group:		Development/Libraries
-Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(fr):	Development/Librairies
 Requires:	%{name} = %{version}
 
 %description devel
@@ -53,8 +56,8 @@ z biblioteki GD.
 Summary:	Static GD library
 Summary(pl):	Statyczna biblioteka GD
 Group:		Development/Libraries
-Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(fr):	Development/Librairies
 Requires:	%{name} = %{version}
 
 %description devel
@@ -68,27 +71,18 @@ Pakiet ten zawiera statyczn± bibliotekê GD.
 %patch0 -p1 
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -I/usr/include/freetype"
-LDFLAGS="-s"
-export CFLAGS LDFLAGS
-%{__make} libgd.a
-gcc -shared -o libgd.so.%{version} -Wl,-soname=libgd.so.%{shlibver} \
-        `ar t libgd.a` -L/usr/X11R6/lib -lttf -ljpeg -lpng -lz -lm
+libtoolize --copy --force
+automake -a -c
+aclocal
+autoconf
+%configure
+%{__make}
 
 %install
+rm -rf $RPM_BUILD_ROOT
 
-
-[ "$RPM_BUILD_ROOT" != "/" ] && rm -fr $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_includedir},%{_libdir}}
 %{__make} install \
-        INSTALL_BIN=$RPM_BUILD_ROOT%{_bindir} \
-        INSTALL_INCLUDE=$RPM_BUILD_ROOT%{_includedir} \
-        INSTALL_LIB=$RPM_BUILD_ROOT%{_libdir}
-
-install libgd.so.%{version} $RPM_BUILD_ROOT%{_libdir}/
-ln -s libgd.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgd.so
-
-#make DESTDIR="$RPM_BUILD_ROOT" install
+        DESTDIR=$RPM_BUILD_ROOT
 
 strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/lib*.so.*.*
 
