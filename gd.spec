@@ -2,7 +2,7 @@ Summary:	Library for GIF creation
 Summary(pl):	Biblioteka do tworzenia GIFów
 Name:		gd
 Version:	1.3
-Release:	6
+Release:	7
 Copyright:	BSD-style
 Group:		Libraries
 Group(pl):	Biblioteki
@@ -64,7 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /sbin/ldconfig
 
 %files
-%attr(755,root,root) /usr/lib/*.so.*
+%attr(755,root,root) /usr/lib/*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
@@ -73,6 +73,10 @@ rm -rf $RPM_BUILD_ROOT
 /usr/include/*
 
 %changelog
+* Sun Apr 25 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.3-7]
+- recompiled on new rpm.
+
 * Thu Apr 15 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.3-6]
 - added gd-ref.html do delel,
