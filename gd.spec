@@ -72,10 +72,3 @@ rm -rf $RPM_BUILD_ROOT
 %doc readme.txt.gz index.html gd-ref.html
 %attr(755,root,root) %{_libdir}/*.so
 %{_includedir}/*
-
-%changelog
-* Wed May 26 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [1.3-8]
-- based on RH spec,
-- spec rewrited by PLD team,
-- pl translation by Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>.
