@@ -10,19 +10,29 @@ Patch2:      gd-nodemo.patch
 Copyright:   BSD-style
 Group:       Libraries
 BuildRoot:   /tmp/%{name}-%{version}-root
+Summary(pl): Biblioteka do tworzenia GIFów
 
 %description
 This library allows you to easily create and manipulate GIF image files
 from your C programs.
 
+%description -l pl
+Biblioteka pozwalaj±ca na proste tworzenie i manipulowanie plikami graficznymi
+w formacie GIF.
+
 %package devel
 Summary:     Development part of the GD library
+Summary(pl): Czê¶æ biblioteki GD przeznaczona dla developerów.
 Group:       Development/Libraries
 Requires:    %{name} = %{version}
 
 %description devel
 This package contains the files needed for development of programs linked
 against GD.
+
+%description -l pl devel
+Pakiet ten zawiera pliki potrzebne do rozwoju programów
+korzystaj±cych z biblioteki GD.
 
 %prep
 %setup -q -n %{name}%{version}
@@ -56,6 +66,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/include/*
 
 %changelog
+* Mon Jan 11 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
+- added polish translation
+
 * Mon Dec 21 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.3-5]
 - removed compiling demo programs.
