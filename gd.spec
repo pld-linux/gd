@@ -87,11 +87,11 @@ Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}
 
 %description static
-This package contains static GD library.
-This is the gd image manipulating library. It was created to allow
-graphs, charts and the like to be generated on the fly for use on the
-World wide Web, but is useful for any application in which custom
-images are useful. It is not a paint program; it is a library.
+This package contains static GD library. This is the gd image
+manipulating library. It was created to allow graphs, charts and the
+like to be generated on the fly for use on the World wide Web, but is
+useful for any application in which custom images are useful. It is
+not a paint program; it is a library.
 
 This package contains static libraries for libgd development.
 
@@ -112,10 +112,9 @@ Requires:	%{name} = %{version}
 
 %description progs
 These are utility programs supplied with gd, the .jpeg graphics
-library.
-The libgd-progs package contains a group of scripts for manipulating
-the graphics files in formats which are supported by the libgd
-library.
+library. The libgd-progs package contains a group of scripts for
+manipulating the graphics files in formats which are supported by the
+libgd library.
 
 %description progs -l pl
 Pakiet ten zawiera dodatkowe programy uzywaj±ce libgd.
