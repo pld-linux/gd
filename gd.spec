@@ -70,7 +70,7 @@ Pakiet ten zawiera statyczn± bibliotekê GD.
 CFLAGS="$RPM_OPT_FLAGS -I/usr/include/freetype"
 LDFLAGS="-s"
 export CFLAGS LDFLAGS
-make libgd.a
+%{__make} libgd.a
 gcc -shared -o libgd.so.%{version} -Wl,-soname=libgd.so.%{shlibver} \
         `ar t libgd.a` -L/usr/X11R6/lib -lttf -ljpeg -lpng -lz -lm
 
@@ -79,7 +79,7 @@ gcc -shared -o libgd.so.%{version} -Wl,-soname=libgd.so.%{shlibver} \
 
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -fr $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_includedir},%{_libdir}}
-make install \
+%{__make} install \
         INSTALL_BIN=$RPM_BUILD_ROOT%{_bindir} \
         INSTALL_INCLUDE=$RPM_BUILD_ROOT%{_includedir} \
         INSTALL_LIB=$RPM_BUILD_ROOT%{_libdir}
