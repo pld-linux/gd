@@ -119,7 +119,7 @@ diff -Nru gd-1.8.4/configure.in gd-1.8.4.new/configure.in
 +
 +dnl Checks for libraries.
 +dnl Replace `main' with a function in -ljpeg:
-+AC_CHECK_LIB(jpeg, main, [CFLAGS="$CFLAGS -DHAVE_JPEG"; LIBS="$LIBS -ljpeg"])
++AC_CHECK_LIB(jpeg, main, [CFLAGS="$CFLAGS -DHAVE_LIBJPEG"; LIBS="$LIBS -ljpeg"])
 +dnl Replace `main' with a function in -ltiff:
 +AC_CHECK_LIB(tiff, main, [CFLAGS="$CFLAGS -DHAVE_LIBTTF"; LIBS="$LIBS -ltiff"])
 +dnl Replace `main' with a function in -ltiff:
