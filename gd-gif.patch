@@ -869,16 +869,12 @@ diff -Nur gd-2.0.17.orig/gd_biggif_out.c gd-2.0.17/gd_biggif_out.c
 +/* |   provided "as is" without express or implied warranty.           | */
 +/* +-------------------------------------------------------------------+ */
 +
-diff -Nur gd-2.0.17.orig/gd.c gd-2.0.17/gd.c
---- gd-2.0.17.orig/gd.c	2003-12-24 22:43:06.000000000 +0100
-+++ gd-2.0.17/gd.c	2003-12-26 15:35:52.264574624 +0100
-@@ -2695,7 +2695,17 @@
- }
+--- gd-2.0.26/gd.c.orig	2004-06-04 02:47:59.000000000 +0200
++++ gd-2.0.26/gd.c	2004-06-05 23:46:55.362148856 +0200
+@@ -2519,6 +2519,15 @@
  
- void
--gdImagePolygon (gdImagePtr im, gdPointPtr p, int n, int c)
-+gdImagePolygon(gdImagePtr im, gdPointPtr p, int n, int c)
-+{
+ BGD_DECLARE(void) gdImagePolygon (gdImagePtr im, gdPointPtr p, int n, int c)
+ {
 +	if (!n) {
 +		return;
 +	}
@@ -886,12 +882,12 @@ diff -Nur gd-2.0.17.orig/gd.c gd-2.0.17/gd.c
 +	gdImageOpenPolygon(im, p, n, c);
 +}	
 +
-+void
-+gdImageOpenPolygon (gdImagePtr im, gdPointPtr p, int n, int c)
- {
++BGD_DECLARE(void) gdImageOpenPolygon (gdImagePtr im, gdPointPtr p, int n, int c)
++{
    int i;
    int lx, ly;
-@@ -2711,7 +2721,6 @@
+   if (!n)
+@@ -2529,7 +2538,6 @@
  
    lx = p->x;
    ly = p->y;
@@ -1625,55 +1621,54 @@ diff -Nur gd-2.0.17.orig/gd_gif_out.c gd-2.0.17/gd_gif_out.c
 +#endif
 +}
 +
-diff -Nur gd-2.0.19.orig/gd.h gd-2.0.19/gd.h
---- gd-2.0.19.orig/gd.h	2003-12-24 20:55:14.000000000 +0100
-+++ gd-2.0.19/gd.h	2003-12-26 15:35:52.276572800 +0100
-@@ -240,6 +240,11 @@
+--- gd-2.0.26/gd.h.orig	2004-06-04 02:43:33.000000000 +0200
++++ gd-2.0.26/gd.h	2004-06-05 23:46:00.970417656 +0200
+@@ -275,6 +275,11 @@
+    /* Deprecated in favor of gdImageCreateFromPngCtx */
+ BGD_DECLARE(gdImagePtr) gdImageCreateFromPngSource (gdSourcePtr in);
  
-    BGD_EXPORT gdImagePtr gdImageCreateFromPngSource (gdSourcePtr in);
- 
-+   BGD_EXPORT gdImagePtr gdImageCreateFromGif (FILE *fd);
-+   BGD_EXPORT gdImagePtr gdImageCreateFromGifCtx (gdIOCtxPtr in);
-+   BGD_EXPORT gdImagePtr gdImageCreateFromGifPtr (int size, void *data);
-+   BGD_EXPORT gdImagePtr gdImageCreateFromGifSource (gdSourcePtr in);
++BGD_DECLARE(gdImagePtr) gdImageCreateFromGif (FILE *fd);
++BGD_DECLARE(gdImagePtr) gdImageCreateFromGifCtx (gdIOCtxPtr in);
++BGD_DECLARE(gdImagePtr) gdImageCreateFromGifPtr (int size, void *data);
++BGD_DECLARE(gdImagePtr) gdImageCreateFromGifSource (gdSourcePtr in);
 +
-    BGD_EXPORT gdImagePtr gdImageCreateFromGd (FILE * in);
-    BGD_EXPORT gdImagePtr gdImageCreateFromGdCtx (gdIOCtxPtr in);
- 
-@@ -354,6 +359,7 @@
+ BGD_DECLARE(gdImagePtr) gdImageCreateFromGd (FILE * in);
+ BGD_DECLARE(gdImagePtr) gdImageCreateFromGdCtx (gdIOCtxPtr in);
+ BGD_DECLARE(gdImagePtr) gdImageCreateFromGdPtr (int size, void *data);
+@@ -404,6 +409,7 @@
    gdPoint, *gdPointPtr;
  
-    BGD_EXPORT void gdImagePolygon (gdImagePtr im, gdPointPtr p, int n, int c);
-+   BGD_EXPORT void gdImageOpenPolygon (gdImagePtr im, gdPointPtr p, int n, int c);
-    BGD_EXPORT void gdImageFilledPolygon (gdImagePtr im, gdPointPtr p, int n, int c);
+ BGD_DECLARE(void) gdImagePolygon (gdImagePtr im, gdPointPtr p, int n, int c);
++BGD_DECLARE(void) gdImageOpenPolygon (gdImagePtr im, gdPointPtr p, int n, int c);
+ BGD_DECLARE(void) gdImageFilledPolygon (gdImagePtr im, gdPointPtr p, int n, int c);
  
  /* These functions still work with truecolor images, 
-@@ -455,6 +461,14 @@
+@@ -505,6 +511,14 @@
  /* Best to free this memory with gdFree(), not free() */
-   void *gdImageJpegPtr (gdImagePtr im, int *size, int quality);
+ BGD_DECLARE(void *) gdImageJpegPtr (gdImagePtr im, int *size, int quality);
  
-+BGD_EXPORT void gdImageLzw(gdImagePtr im, FILE *out);
-+BGD_EXPORT void* gdImageLzwPtr(gdImagePtr im, int *size);
-+BGD_EXPORT void gdImageLzwCtx(gdImagePtr im, gdIOCtxPtr out);
++BGD_DECLARE(void) gdImageLzw(gdImagePtr im, FILE *out);
++BGD_DECLARE(void*) gdImageLzwPtr(gdImagePtr im, int *size);
++BGD_DECLARE(void) gdImageLzwCtx(gdImagePtr im, gdIOCtxPtr out);
 +
-+BGD_EXPORT void gdImageBigGif(gdImagePtr im, FILE *out);
-+BGD_EXPORT void* gdImageBigGifPtr(gdImagePtr im, int *size);
-+BGD_EXPORT void gdImageBigGifCtx(gdImagePtr im, gdIOCtxPtr out);
++BGD_DECLARE(void) gdImageBigGif(gdImagePtr im, FILE *out);
++BGD_DECLARE(void*) gdImageBigGifPtr(gdImagePtr im, int *size);
++BGD_DECLARE(void) gdImageBigGifCtx(gdImagePtr im, gdIOCtxPtr out);
 +
  /* A custom data sink. For backwards compatibility. Use
  	gdIOCtx instead. */
  /* The sink function must return -1 on error, otherwise the number
-@@ -469,6 +483,11 @@
+@@ -519,6 +533,11 @@
  
-    BGD_EXPORT void gdImagePngToSink (gdImagePtr im, gdSinkPtr out);
+ BGD_DECLARE(void) gdImagePngToSink (gdImagePtr im, gdSinkPtr out);
  
-+   BGD_EXPORT void gdImageGif (gdImagePtr im, FILE *out);
-+   BGD_EXPORT void* gdImageGifPtr (gdImagePtr im, int *size);
-+   BGD_EXPORT void gdImageGifCtx (gdImagePtr im, gdIOCtxPtr out);
-+   BGD_EXPORT void gdImageGifToSink (gdImagePtr im, gdSinkPtr out);
++BGD_DECLARE(void) gdImageGif (gdImagePtr im, FILE *out);
++BGD_DECLARE(void*) gdImageGifPtr (gdImagePtr im, int *size);
++BGD_DECLARE(void) gdImageGifCtx (gdImagePtr im, gdIOCtxPtr out);
++BGD_DECLARE(void) gdImageGifToSink (gdImagePtr im, gdSinkPtr out);
 +
-    BGD_EXPORT void gdImageGd (gdImagePtr im, FILE * out);
-    BGD_EXPORT void gdImageGd2 (gdImagePtr im, FILE * out, int cs, int fmt);
+ BGD_DECLARE(void) gdImageGd (gdImagePtr im, FILE * out);
+ BGD_DECLARE(void) gdImageGd2 (gdImagePtr im, FILE * out, int cs, int fmt);
  
 diff -Nur gd-2.0.17.orig/gd_lzw_out.c gd-2.0.17/gd_lzw_out.c
 --- gd-2.0.17.orig/gd_lzw_out.c	1970-01-01 01:00:00.000000000 +0100
