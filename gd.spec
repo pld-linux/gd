@@ -9,11 +9,15 @@ Group(de):	Libraries
 Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
+Group(pt_BR):	Bibliotecas
+Group(ru):	Библиотеки
+Group(uk):	Б╕бл╕отеки
 Source0:	http://www.boutell.com/ftp-materials/boutell/gd/%{name}-%{version}.tar.gz
 Patch0:		%{name}-ac_am.patch
 URL:		http://www.boutell.com/gd/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	libtool
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
@@ -44,8 +48,12 @@ Summary:	Development part of the GD library
 Summary(pl):	CzЙ╤Ф biblioteki GD przeznaczona dla developerСw
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	Разработка/Библиотеки
+Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	libpng-devel
 Requires:	zlib-devel
 Requires:	%{name} = %{version}
@@ -63,8 +71,12 @@ Summary:	Static GD library
 Summary(pl):	Statyczna biblioteka GD
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	Разработка/Библиотеки
+Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 
 %description devel
@@ -79,6 +91,7 @@ Summary(pl):	NarzЙdzia ktСre u©ywaj╠ libgd
 Group:		Applications/Graphics
 Group(de):	Applikationen/Grafik
 Group(pl):	Aplikacje/Grafika
+Group(pt):	AplicaГУes/GrАficos
 Requires:	%{name} = %{version}
 
 %description progs
@@ -86,7 +99,7 @@ These are utility programs supplied with gd, the .jpeg graphics
 library.
 
 %description -l pl progs
-Pakiet ten zawiera dodatkowe programu uzywaj╠ce libgd
+Pakiet ten zawiera dodatkowe programy uzywaj╠ce libgd.
 
 %prep
 %setup -q 
