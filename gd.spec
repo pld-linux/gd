@@ -94,8 +94,8 @@ Pakiet ten zawiera dodatkowe programu uzywaj±ce libgd
 %build
 libtoolize --copy --force
 aclocal
-autoconf
 automake -a -c
+autoconf
 %configure
 %{__make}
 
