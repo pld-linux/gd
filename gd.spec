@@ -1,8 +1,8 @@
 Summary:	Library for GIF creation
 Summary(pl):	Biblioteka do tworzenia GIFów
 Name:		gd
-Version:	1.3
-Release:	8
+Version:	1.4
+Release:	1
 Copyright:	BSD-style
 Group:		Libraries
 Group(pl):	Biblioteki
@@ -44,7 +44,7 @@ korzystaj±cych z biblioteki GD.
 %patch2 -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" make
+CFLAGS="$RPM_OPT_FLAGS" make VERSION="%{version}"
 
 install %{SOURCE1} .
 
