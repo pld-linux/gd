@@ -53,13 +53,14 @@ Pakiet ten zawiera statyczn± bibliotekê GD.
 %setup -q 
 
 %build
+LDFLAGS="-s"; export LDFLAGS
 %configure
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR="$RPM_BUILD_ROOT" install
-strip $RPM_BUILD_ROOT{%{_bindir}/*,%{_libdir}/*.so} || :
+strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/lib*.so.*.*
 gzip -9nf NEWS README index.html 
 
 %clean
@@ -83,4 +84,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/*.a
+%{_libdir}/lib*.a
