@@ -14,7 +14,7 @@
  	echo "includedir: $includedir"
  	echo "cflags:     -I@includedir@"
 -	echo "ldflags:    @LDFLAGS@"
-+	echo "ldflags:    /usr/X11R6/lib"
++	echo "ldflags:    -L/usr/X11R6/lib"
  	echo "libs:       @LIBS@"
  	echo "libdir:     $libdir"
  	;;
