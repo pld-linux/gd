@@ -149,7 +149,7 @@ para uso pelos programas que usam a libgd.
 
 %build
 %{__libtoolize}
-aclocal
+%{__aclocal}
 %{__automake}
 %{__autoconf}
 %{!?_without_lzw:CPPFLAGS="-DLZW_LICENCED"}
