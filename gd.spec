@@ -8,21 +8,22 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.15
-Release:	4
+Version:	2.0.17
+Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	6ededf633b4fd054662ec123c7825fbb
-Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.15_gif_030616.gz
-Patch1:		%{name}-gif-am.patch
-Patch2:		%{name}-fontpath.patch
-Patch3:		%{name}-no_ldflags_in_gdlib-config.patch
-Patch4:		%{name}-freetype_includes.patch
+# Source0-md5:	a1c0b12e69df63c22c7f90a4e8618c83
+# based on:
+#Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.15_gif_030801.gz
+Patch0:		%{name}-gif.patch
+Patch1:		%{name}-fontpath.patch
+Patch2:		%{name}-no_ldflags_in_gdlib-config.patch
+Patch3:		%{name}-FreeFontCache-alias.patch
 URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
 %{!?with_xpm:BuildConflicts:	XFree86-devel}
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	libpng-devel
@@ -144,11 +145,10 @@ para uso pelos programas que usam a libgd.
 %setup -q
 %if 0%{!?_without_gif:1}
 %patch0 -p1
-%patch1 -p1
 %endif
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 %{__libtoolize}
