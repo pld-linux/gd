@@ -130,7 +130,7 @@ para uso pelos programas que usam a libgd.
 %build
 libtoolize --copy --force
 aclocal
-automake -a -c
+automake -a -c -f
 autoconf
 %configure
 %{__make}
