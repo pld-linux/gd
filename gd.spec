@@ -12,13 +12,12 @@ Patch0:		%{name}-ac_am.patch
 URL:		http://www.boutell.com/gd/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool
-BuildRequires:	zlib-devel
+BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
-BuildRequires:	freetype-devel >= 2.0
-BuildRequires:	pkgconfig
+BuildRequires:	libtool
+BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		shlibver	%(echo %{version} | cut -f-2 -d.)
@@ -133,10 +132,7 @@ para uso pelos programas que usam a libgd.
 aclocal
 %{__automake}
 %{__autoconf}
-if [ -f %{_pkgconfigdir}/libpng12.pc ] ; then
-	CPPFLAGS="`pkg-config libpng12 --cflags`"
-fi
-%configure CPPFLAGS="$CPPFLAGS"
+%configure
 %{__make}
 
 %install
@@ -144,8 +140,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-
-gzip -9nf readme.txt index.html
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -155,12 +149,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc readme.txt.gz
+%doc readme.txt
 %attr(755,root,root) %{_libdir}/*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%doc index.html.gz
+%doc index.html
 %attr(755,root,root) %{_libdir}/*.so
 %attr(755,root,root) %{_libdir}/*.la
 %{_includedir}/*
