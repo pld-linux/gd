@@ -6,7 +6,8 @@ Release:	6
 Copyright:	BSD-style
 Group:		Libraries
 Group(pl):	Biblioteki
-Source:		ftp://ftp.boutell.com/pub/boutell/gd/%{name}%{version}.tar.gz
+Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}%{version}.tar.gz
+Source1:	gd-ref.html
 Patch0:		gd-shared.patch
 Patch1:		gd-non-root.patch
 Patch2:		gd-nodemo.patch
@@ -45,12 +46,16 @@ korzystaj±cych z biblioteki GD.
 %build
 CFLAGS="$RPM_OPT_FLAGS" make
 
+insytall %{SOURCE1} .
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/usr/{include,lib}
 
 install {gd,gdfontg,gdfontl,gdfontmb,gdfonts,gdfontt}.h $RPM_BUILD_ROOT/usr/include
 install -s libgd.so* $RPM_BUILD_ROOT/usr/lib
+
+gzip -9nf readme.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -63,11 +68,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc readme.txt index.html
+%doc readme.txt index.html gd-ref.html
 %attr(755,root,root) /usr/lib/*.so
 /usr/include/*
 
 %changelog
+* Thu Apr 15 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.3-6]
+- added gd-ref.html do delel,
+- gzipping some %doc.
+
 * Mon Jan 11 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
 - added polish translation
 
