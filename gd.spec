@@ -53,8 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/usr/{include,lib}
 
 install {gd,gdfontg,gdfontl,gdfontmb,gdfonts,gdfontt}.h $RPM_BUILD_ROOT/usr/include
-install -s libgd.so.*.* $RPM_BUILD_ROOT/usr/lib
-mv libgd.so $RPM_BUILD_ROOT/usr/lib
+install -s libgd.so.*.* $RPM_BUILD_ROOT%{_libdir}
+mv libgd.so $RPM_BUILD_ROOT%{_libdir}
 
 gzip -9nf readme.txt
 
@@ -65,12 +65,12 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /sbin/ldconfig
 
 %files
-%attr(755,root,root) /usr/lib/*.so.*.*
+%attr(755,root,root) %{_libdir}/*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
 %doc readme.txt.gz index.html gd-ref.html
-%attr(755,root,root) /usr/lib/*.so
+%attr(755,root,root) %{_libdir}/*.so
 /usr/include/*
 
 %changelog
