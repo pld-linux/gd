@@ -15,6 +15,7 @@ Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
 Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.12_gif_20030401.gz
 Patch1:		%{name}-gif-am.patch
 Patch2:		%{name}-fontpath.patch
+Patch3:		%{name}-no_ldflags_in_gdlib-config.patch
 URL:		http://www.boutell.com/gd/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -24,12 +25,8 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	zlib-devel
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %{!?_without_gif:Provides:	gd(gif) = %{version}}
-
-%define		shlibver	%(echo %{version} | cut -f-2 -d.)
-# we don't want "-s" here, because it would be added to `gdlib-config --ldflags`
-%define		rpmldflags	%{nil}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 gd is the image manipulating library. It was created to allow graphs,
@@ -144,6 +141,7 @@ para uso pelos programas que usam a libgd.
 %patch1 -p1
 %endif
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__libtoolize}
