@@ -8,7 +8,7 @@ Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.12
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
@@ -28,6 +28,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %{!?_without_gif:Provides:	gd(gif) = %{version}}
 
 %define		shlibver	%(echo %{version} | cut -f-2 -d.)
+# we don't want "-s" here, because it would be added to `gdlib-config --ldflags`
+%define		rpmldflags	%{nil}
 
 %description
 gd is the image manipulating library. It was created to allow graphs,
