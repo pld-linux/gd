@@ -1,16 +1,17 @@
-Summary:     Library for GIF creation
-Name:        gd
-Version:     1.3
-Release:     5
-Source:      ftp://ftp.boutell.com/pub/boutell/gd/%{name}%{version}.tar.gz
-URL:         http://www.boutell.com/gd/
-Patch0:      gd-shared.patch
-Patch1:      gd-non-root.patch
-Patch2:      gd-nodemo.patch
-Copyright:   BSD-style
-Group:       Libraries
-BuildRoot:   /tmp/%{name}-%{version}-root
-Summary(pl): Biblioteka do tworzenia GIFów
+Summary:	Library for GIF creation
+Summary(pl):	Biblioteka do tworzenia GIFów
+Name:		gd
+Version:	1.3
+Release:	6
+Copyright:	BSD-style
+Group:		Libraries
+Group(pl):	Biblioteki
+Source:		ftp://ftp.boutell.com/pub/boutell/gd/%{name}%{version}.tar.gz
+Patch0:		gd-shared.patch
+Patch1:		gd-non-root.patch
+Patch2:		gd-nodemo.patch
+URL:		http://www.boutell.com/gd/
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
 This library allows you to easily create and manipulate GIF image files
@@ -21,10 +22,11 @@ Biblioteka pozwalaj±ca na proste tworzenie i manipulowanie plikami graficznymi
 w formacie GIF.
 
 %package devel
-Summary:     Development part of the GD library
-Summary(pl): Czê¶æ biblioteki GD przeznaczona dla developerów.
-Group:       Development/Libraries
-Requires:    %{name} = %{version}
+Summary:	Development part of the GD library
+Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów.
+Group:		Development/Libraries
+Group(pl):	Development/Libraries
+Requires:	%{name} = %{version}
 
 %description devel
 This package contains the files needed for development of programs linked
@@ -57,12 +59,12 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /sbin/ldconfig
 
 %files
-%attr(755, root, root) /usr/lib/*.so.*
+%attr(755,root,root) /usr/lib/*.so.*
 
 %files devel
-%defattr(644, root, root, 755)
+%defattr(644,root,root,755)
 %doc readme.txt index.html
-%attr(755, root, root) /usr/lib/*.so
+%attr(755,root,root) /usr/lib/*.so
 /usr/include/*
 
 %changelog
