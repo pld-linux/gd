@@ -130,8 +130,8 @@ para uso pelos programas que usam a libgd.
 %build
 libtoolize --copy --force
 aclocal
-automake -a -c -f
-autoconf
+%{__automake}
+%{__autoconf}
 if [ -f %{_pkgconfigdir}/libpng12.pc ] ; then
 	CPPFLAGS="`pkg-config libpng12 --cflags`"
 fi
