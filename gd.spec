@@ -2,7 +2,7 @@ Summary:	Library for GIF creation
 Summary(pl):	Biblioteka do tworzenia GIF闚
 Name:		gd
 Version:	1.3
-Release:	7
+Release:	8
 Copyright:	BSD-style
 Group:		Libraries
 Group(pl):	Biblioteki
@@ -50,7 +50,7 @@ install %{SOURCE1} .
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/usr/{include,lib}
+install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir}}
 
 install {gd,gdfontg,gdfontl,gdfontmb,gdfonts,gdfontt}.h $RPM_BUILD_ROOT%{_includedir}
 install -s libgd.so.*.* $RPM_BUILD_ROOT%{_libdir}
@@ -74,33 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
-* Sun Apr 25 1999 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
-  [1.3-7]
-- recompiled on new rpm.
-
-* Thu Apr 15 1999 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
-  [1.3-6]
-- added gd-ref.html do delel,
-- gzipping some %doc.
-
-* Mon Jan 11 1999 Arkadiusz Mi鄂iewicz <misiek@misiek.eu.org>
-- added polish translation
-
-* Mon Dec 21 1998 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
-  [1.3-5]
-- removed compiling demo programs.
-
-* Thu Sep 24  1998 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
-  [1.3-4]
-- added -q %setup parameter,
-- changed Buildroot to /tmp/%%{name}-%%{version}-root,
-- added using %%{name} and %%{version} in Source and %setup,
-- added %postun,
-- changed dependencies to "Requires: %%{name} = %%{version}" in devel
-  subpackage,
-- added stripping shared libraries,
-- added %attr and %defattr macros in %files (allows build package from
-  non-root account).
-
-* Fri Sep 11 1998 Cristian Gafton <gafton@redhat.com>
-- built for 5.2
+* Wed May 26 1999 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
+  [1.3-8]
+- based on RH spec,
+- spec rewrited by PLD team,
+- pl translation by Arkadiusz Mi鄂iewicz <misiek@misiek.eu.org>.
