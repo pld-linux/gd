@@ -8,13 +8,14 @@ Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.28
-Release:	2
+Release:	3
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
 # Source0-md5:	14bf0b840b309ae8a29934a7a0743fd3
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-no_ldflags_in_gdlib-config.patch
+Patch2:		%{name}-rotate_from_php.patch
 URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf >= 2.54
@@ -136,6 +137,7 @@ para uso pelos programas que usam a libgd.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
