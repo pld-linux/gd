@@ -132,7 +132,10 @@ libtoolize --copy --force
 aclocal
 automake -a -c -f
 autoconf
-%configure
+if [ -f %{_pkgconfigdir}/libpng12.pc ] ; then
+	CPPFLAGS="`pkg-config libpng12 --cflags`"
+fi
+%configure CPPFLAGS="$CPPFLAGS"
 %{__make}
 
 %install
