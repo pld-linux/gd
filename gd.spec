@@ -1,7 +1,5 @@
 #
 # Conditional build:
-%bcond_without	gif	# without GIF support (based on patch from http://www.rhyme.com.au/gd/)
-%bcond_without	lzw	# without LZW compression in GIF creation functions
 %bcond_without	xpm	# without XPM support (requires X11 libs)
 #
 Summary:	Library for PNG, JPEG creation
@@ -9,19 +7,14 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.27
+Version:	2.0.28
 Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	0685f617ec4ea2c0e615eefb57faa19b
-# based on:
-#Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.15_gif_030801.gz
-# current version is patch_gd2.0.21_gif_040120.gz, but it doesn't support
-# gdImageCreateFromGifPtr() and still has close bug
-Patch0:		%{name}-gif.patch
-Patch1:		%{name}-fontpath.patch
-Patch2:		%{name}-no_ldflags_in_gdlib-config.patch
+# Source0-md5:	14bf0b840b309ae8a29934a7a0743fd3
+Patch0:		%{name}-fontpath.patch
+Patch1:		%{name}-no_ldflags_in_gdlib-config.patch
 URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf >= 2.54
@@ -33,7 +26,7 @@ BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	zlib-devel
 %{!?with_xpm:BuildConflicts:	XFree86-devel}
-%{?with_gif:Provides:	gd(gif) = %{version}}
+Provides:	gd(gif) = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -41,12 +34,10 @@ gd is the image manipulating library. It was created to allow graphs,
 charts and the like to be generated on the fly for use on the World
 wide Web, but is useful for any application in which custom images are
 useful. It is not a paint program; it is a library. gd library creates
-PNG, JPEG and WBMP images. This is a good thing. PNG is a more compact
-format, and full compression is available. JPEG works well with
-photographic images, and is still more compatible with the major Web
-browsers than even PNG is. WBMP is intended for wireless devices (not
-regular web browsers).
-%{?with_gif:This version has additional GIF images support.}
+PNG, JPEG, GIF and WBMP images. PNG is a more compact format, and full
+compression is available. JPEG works well with photographic images,
+and is still more compatible with the major Web browsers than even PNG
+is. WBMP is intended for wireless devices (not regular web browsers).
 
 %description -l es
 Esta es la biblioteca gd para el manejo de imágenes. Fue creada para
@@ -59,12 +50,11 @@ gd to biblioteka do obróbki obrazów. Zosta³a stworzona, aby umo¿liwiæ
 dynamiczne generowanie wykresów i podobnych rzeczy na potrzeby WWW,
 ale mo¿e byæ przydatna tak¿e dla ka¿dej aplikacji tworz±cej w³asne
 obrazy. Biblioteka ta pozwala na tworzenie plików graficznych w
-formatach PNG, JPEG i WBMP. PNG jest zwartym formatem z bezstratn±
-kompresj±. JPEG dobrze nadaje siê do obrazów fotograficznych i jest
-obs³ugiwany nawet przez wiêcej przegl±darek WWW ni¿ PNG. WBMP jest
-przeznaczony dla urz±dzeñ bezprzewodowych (a nie zwyk³ych przegl±darek
-WWW).
-%{?with_gif:Ta wersja ma dodatkowo obs³ugê formatu GIF.}
+formatach PNG, JPEG, GIF i WBMP. PNG jest zwartym formatem z
+bezstratn± kompresj±. JPEG dobrze nadaje siê do obrazów
+fotograficznych i jest obs³ugiwany nawet przez wiêcej przegl±darek WWW
+ni¿ PNG. WBMP jest przeznaczony dla urz±dzeñ bezprzewodowych (a nie
+zwyk³ych przegl±darek WWW).
 
 %description -l pt_BR
 Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
@@ -84,7 +74,7 @@ Requires:	freetype-devel >= 2.0
 Requires:	libjpeg-devel
 Requires:	libpng-devel
 Requires:	zlib-devel
-%{?with_gif:Provides:	gd-devel(gif) = %{version}-%{release}}
+Provides:	gd-devel(gif) = %{version}-%{release}
 
 %description devel
 This package contains the files needed for development of programs
@@ -108,7 +98,7 @@ Summary(pl):	Statyczna biblioteka GD
 Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com libgd
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-%{?with_gif:Provides:	gd-static(gif) = %{version}-%{release}}
+Provides:	gd-static(gif) = %{version}-%{release}
 
 %description static
 This package contains static gd library.
@@ -127,7 +117,6 @@ Summary(pl):	Narzêdzia u¿ywaj±ce libgd
 Summary(pt_BR):	Programas utilitários libgd
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
-%{?with_gif:Provides:	gd-progs(gif) = %{version}-%{release}}
 
 %description progs
 These are utility programs supplied with gd, the image manipulation
@@ -145,16 +134,15 @@ para uso pelos programas que usam a libgd.
 
 %prep
 %setup -q
-%{?with_gif:%patch0 -p1}
+%patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__libtoolize}
 %{__aclocal}
 %{__automake}
+%{__autoheader}
 %{__autoconf}
-%{?with_lzw:CPPFLAGS="-DLZW_LICENCED"}
 %configure
 %{__make}
 
@@ -189,5 +177,4 @@ rm -rf $RPM_BUILD_ROOT
 %files progs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/[!g]*
-%{?with_gif:%attr(755,root,root) %{_bindir}/gif*}
 %attr(755,root,root) %{_bindir}/gd[!l]*
