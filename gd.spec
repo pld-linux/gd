@@ -8,18 +8,17 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.19
+Version:	2.0.21
 Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	ff9d6cb5c40a387eeccf0834df506f19
+# Source0-md5:	3134158635f5048dba99281c6b712a54
 # based on:
 #Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.15_gif_030801.gz
 Patch0:		%{name}-gif.patch
 Patch1:		%{name}-fontpath.patch
 Patch2:		%{name}-no_ldflags_in_gdlib-config.patch
-Patch3:		%{name}-FreeFontCache-alias.patch
 URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
 %{!?with_xpm:BuildConflicts:	XFree86-devel}
@@ -143,12 +142,9 @@ para uso pelos programas que usam a libgd.
 
 %prep
 %setup -q
-%if 0%{!?_without_gif:1}
-%patch0 -p1
-%endif
+%{?with_gif:%patch0 -p1}
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__libtoolize}
@@ -190,5 +186,5 @@ rm -rf $RPM_BUILD_ROOT
 %files progs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/[!g]*
-%{!?_without_gif:%attr(755,root,root) %{_bindir}/gif*}
+%{?with_gif:%attr(755,root,root) %{_bindir}/gif*}
 %attr(755,root,root) %{_bindir}/gd[!l]*
