@@ -1,5 +1,5 @@
 --- ./gd.c.org	Thu Jul  1 23:30:30 2004
-+++ ./gd.c	Thu Aug 12 13:41:21 2004
++++ ./gd.c	Thu Aug 12 14:42:03 2004
 @@ -738,14 +738,27 @@
      default:
        if (gdImageBoundsSafeMacro (im, x, y))
@@ -228,7 +228,7 @@
 +}
 +
 +/* Rotates an image by 90 degrees (counter clockwise) */
-+gdImagePtr gdImageRotate90 (gdImagePtr src)
++BGD_DECLARE(gdImagePtr) gdImageRotate90 (gdImagePtr src)
 +{
 +        int uY, uX;
 +        int c, r,g,b,a;
@@ -265,7 +265,7 @@
 +}
 +
 +/* Rotates an image by 180 degrees (counter clockwise) */
-+gdImagePtr gdImageRotate180 (gdImagePtr src)
++BGD_DECLARE(gdImagePtr) gdImageRotate180 (gdImagePtr src)
 +{
 +        int uY, uX;
 +        int c,r,g,b,a;
@@ -302,7 +302,7 @@
 +}
 +
 +/* Rotates an image by 270 degrees (counter clockwise) */
-+gdImagePtr gdImageRotate270 ( gdImagePtr src )
++BGD_DECLARE(gdImagePtr) gdImageRotate270 ( gdImagePtr src )
 +{
 +        int uY, uX;
 +        int c,r,g,b,a;
@@ -338,7 +338,7 @@
 +        return dst;
 +}
 +
-+gdImagePtr gdImageRotate45 (gdImagePtr src, double dAngle, int clrBack)
++BGD_DECLARE(gdImagePtr) gdImageRotate45 (gdImagePtr src, double dAngle, int clrBack)
 +{
 +        typedef int (*FuncPtr)(gdImagePtr, int, int);
 +        gdImagePtr dst1,dst2,dst3;
@@ -464,7 +464,7 @@
 +        return dst3;
 +}
 +
-+gdImagePtr gdImageRotate (gdImagePtr src, double dAngle, int clrBack)
++BGD_DECLARE(gdImagePtr) gdImageRotate (gdImagePtr src, double dAngle, int clrBack)
 +{
 +        gdImagePtr pMidImg;
 +        gdImagePtr rotatedImg;
