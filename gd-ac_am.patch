@@ -1,7 +1,7 @@
 diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
 --- gd-1.8.3/Makefile.am	Thu Jan  1 01:00:00 1970
-+++ gd-1.8.3.new/Makefile.am	Wed Aug 30 06:09:19 2000
-@@ -0,0 +1,88 @@
++++ gd-1.8.3.new/Makefile.am	Wed Aug 30 23:22:41 2000
+@@ -0,0 +1,90 @@
 +## Process this file with automake to produce Makefile.in
 +
 +AUTOMAKE_OPTIONS = 1.4
@@ -50,6 +50,8 @@ diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
 +	gdfonts.h \
 +	gdfontt.h
 +
++libgd_la_LDFLAGS = -version-info 1:8:0
++
 +bin_PROGRAMS = pngtogd pngtogd2 gdtopng gd2topng gd2copypal gdparttopng webpng
 +
 +noinst_PROGRAMS = gdtest gddemo gd2time gdtestttf
@@ -92,7 +94,7 @@ diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
 +CLEANFILES = demoout.png
 diff -Nru gd-1.8.3/configure.in gd-1.8.3.new/configure.in
 --- gd-1.8.3/configure.in	Thu Jan  1 01:00:00 1970
-+++ gd-1.8.3.new/configure.in	Wed Aug 30 06:11:10 2000
++++ gd-1.8.3.new/configure.in	Wed Aug 30 23:21:17 2000
 @@ -0,0 +1,43 @@
 +dnl Process this file with autoconf to produce a configure script
 +
