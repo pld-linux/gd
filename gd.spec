@@ -78,9 +78,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc index.html.gz 
 %attr(755,root,root) %{_libdir}/*.so
-%attr(644,root,root) %{_libdir}/libgd.la
+%attr(755,root,root) %{_libdir}/libgd.la
 %{_includedir}/*
 
 %files static
 %defattr(644,root,root,755)
-%attr(644,root,root) %{_libdir}/*.a
+%{_libdir}/*.a
