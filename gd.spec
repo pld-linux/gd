@@ -27,7 +27,7 @@ BuildRequires:	libtiff-devel
 BuildRequires:	freetype-devel >= 2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define shlibver %(echo %{version} | cut -f-2 -d.)
+%define		shlibver	%(echo %{version} | cut -f-2 -d.)
 
 %description
 gd library creates PNG, JPEG and WBMP images, not GIF images. This is
@@ -80,7 +80,7 @@ Requires:	%{name} = %{version}
 This package contains the files needed for development of programs
 linked against GD.
 
-%description -l es devel
+%description devel -l es
 Este paquete contiene los archivos de inclusión y las bibliotecas
 necesarias para desarrollar programas usando gd.
 
@@ -88,12 +88,7 @@ necesarias para desarrollar programas usando gd.
 Pakiet ten zawiera pliki potrzebne do rozwoju programów korzystaj±cych
 z biblioteki GD.
 
-%description -l pt_BR devel
-Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
-para uso na Web, gerando gráficos automaticamente. Mas é útil para
-qualquer programa que precise de imagens personalizados. Não é um
-programa de desenho; é uma biblioteca.
-
+%description devel -l pt_BR
 Este pacote contém os arquivos de inclusão e as bibliotecas
 necessárias para desenvolver programas usando gd.
 
@@ -114,8 +109,6 @@ Requires:	%{name}-devel = %{version}
 
 %description static
 This package contains static GD library.
-
-%description -l es static
 This is the gd image manipulating library. It was created to allow
 graphs, charts and the like to be generated on the fly for use on the
 World wide Web, but is useful for any application in which custom
@@ -126,12 +119,7 @@ This package contains static libraries for libgd development.
 %description static -l pl
 Pakiet ten zawiera statyczn± bibliotekê GD.
 
-%description -l pt_BR static
-Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
-para uso na Web, gerando gráficos automaticamente. Mas é útil para
-qualquer programa que precise de imagens personalizados. Não é um
-programa de desenho; é uma biblioteca.
-
+%description static -l pt_BR
 Este pacote contem bibliotecas estáticas para desenvolvimento com
 libgd.
 
@@ -149,13 +137,6 @@ Requires:	%{name} = %{version}
 %description progs
 These are utility programs supplied with gd, the .jpeg graphics
 library.
-
-%description -l es progs
-This is the gd image manipulating library. It was created to allow
-graphs, charts and the like to be generated on the fly for use on the
-World wide Web, but is useful for any application in which custom
-images are useful. It is not a paint program; it is a library.
-
 The libgd-progs package contains a group of scripts for manipulating
 the graphics files in formats which are supported by the libgd
 library.
@@ -163,18 +144,13 @@ library.
 %description progs -l pl
 Pakiet ten zawiera dodatkowe programy uzywaj±ce libgd.
 
-%description -l pt_BR progs
-Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
-para uso na Web, gerando gráficos automaticamente. Mas é útil para
-qualquer programa que precise de imagens personalizados. Não é um
-programa de desenho; é uma biblioteca.
-
+%description progs -l pt_BR
 Este pacote inclui vários utilitários para manipulação de arquivos gd
 para uso pelos programas que usam a libgd.
 
 %prep
-%setup -q 
-%patch0 -p1 
+%setup -q
+%patch0 -p1
 
 %build
 libtoolize --copy --force
@@ -188,14 +164,14 @@ autoconf
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-        DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT
 
-gzip -9nf readme.txt index.html 
+gzip -9nf readme.txt index.html
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post   -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
@@ -205,7 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc index.html.gz 
+%doc index.html.gz
 %attr(755,root,root) %{_libdir}/*.so
 %attr(755,root,root) %{_libdir}/*.la
 %{_includedir}/*
