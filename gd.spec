@@ -12,6 +12,7 @@ Release:	2
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
+# Source0-md5: de82080fbac781cfcd512c3c299066d7
 Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.12_gif_20030401.gz
 Patch1:		%{name}-gif-am.patch
 Patch2:		%{name}-fontpath.patch
