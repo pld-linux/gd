@@ -7,18 +7,19 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.28
-Release:	4
+Version:	2.0.30
+Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	14bf0b840b309ae8a29934a7a0743fd3
+# Source0-md5:	8ec99b54b1e985d27f2b871deae953e3
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-rotate_from_php.patch
 URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
+BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
@@ -70,6 +71,7 @@ Summary(pt_BR):	Arquivos de inclusão e bibliotecas para desenvolver programas us
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %{?with_xpm:Requires:	XFree86-devel}
+Requires:	fontconfig-devel
 Requires:	freetype-devel >= 2.0
 Requires:	libjpeg-devel
 Requires:	libpng-devel
@@ -179,5 +181,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files progs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/[!g]*
-%attr(755,root,root) %{_bindir}/gd[!l]*
+%attr(755,root,root) %{_bindir}/*
+%exclude %{_bindir}/gdlib-config
