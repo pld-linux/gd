@@ -1,7 +1,7 @@
-diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
---- gd-1.8.3/Makefile.am	Thu Jan  1 01:00:00 1970
-+++ gd-1.8.3.new/Makefile.am	Mon Dec  4 06:37:15 2000
-@@ -0,0 +1,90 @@
+diff -Nru gd-1.8.4/Makefile.am gd-1.8.4.new/Makefile.am
+--- gd-1.8.4/Makefile.am	Thu Jan  1 01:00:00 1970
++++ gd-1.8.4.new/Makefile.am	Fri Feb  2 00:52:03 2001
+@@ -0,0 +1,93 @@
 +## Process this file with automake to produce Makefile.in
 +
 +AUTOMAKE_OPTIONS = 1.4
@@ -27,6 +27,7 @@ diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
 +	gdfontmb.c \
 +	gdfontl.c \
 +	gdfontg.c \
++	gdft.c \
 +	gdtables.c \
 +	gdttf.c \
 +	gdcache.c \
@@ -38,7 +39,8 @@ diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
 +	gdfonts.h \
 +	gdfontmb.h \
 +	gdfontl.h \
-+	gdfontg.h
++	gdfontg.h \
++	gdhelpers.c
 +
 +include_HEADERS = \
 +	gd.h \
@@ -48,7 +50,8 @@ diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
 +	gdfontl.h \
 +	gdfontmb.h \
 +	gdfonts.h \
-+	gdfontt.h
++	gdfontt.h \
++	gdhelpers.h
 +
 +libgd_la_LDFLAGS = -version-info 1:8:0
 +
@@ -92,9 +95,9 @@ diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
 +EXTRA_DIST = demoin.png index.html test/*
 +
 +CLEANFILES = demoout.png
-diff -Nru gd-1.8.3/configure.in gd-1.8.3.new/configure.in
---- gd-1.8.3/configure.in	Thu Jan  1 01:00:00 1970
-+++ gd-1.8.3.new/configure.in	Mon Dec  4 06:44:13 2000
+diff -Nru gd-1.8.4/configure.in gd-1.8.4.new/configure.in
+--- gd-1.8.4/configure.in	Thu Jan  1 01:00:00 1970
++++ gd-1.8.4.new/configure.in	Fri Feb  2 00:45:23 2001
 @@ -0,0 +1,47 @@
 +dnl Process this file with autoconf to produce a configure script
 +
