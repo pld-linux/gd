@@ -1,5 +1,7 @@
 Summary:	Library for PNG, JPEG creation
+Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
+Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.1
 Release:	3
@@ -39,13 +41,27 @@ gdImageGif.
 This library allows you to easily create and manipulate PNG, JPEG
 image files from your C programs.
 
+%description -l es
+Esta es la biblioteca gd para el manejo de imágenes. Fue creada para
+uso en la Web, creando gráficos automáticamente. Pero es útil para
+cualquier programa que necesite de imágenes personalizados. No es un
+programa de dibujo; es una biblioteca.
+
 %description -l pl
 Biblioteka pozwalaj±ca na proste tworzenie i manipulowanie plikami
 graficznymi w formacie PNG, JPEG i WBMP, ale nie GIF.
 
+%description -l pt_BR
+Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
+para uso na Web, gerando gráficos automaticamente. Mas é útil para
+qualquer programa que precise de imagens personalizados. Não é um
+programa de desenho; é uma biblioteca.
+
 %package devel
 Summary:	Development part of the GD library
+Summary(es):	Archivos de inclusión y bibliotecas para desarrollar programas usando gd
 Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
+Summary(pt_BR):	Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(es):	Desarrollo/Bibliotecas
@@ -64,13 +80,28 @@ Requires:	%{name} = %{version}
 This package contains the files needed for development of programs
 linked against GD.
 
+%description -l es devel
+Este paquete contiene los archivos de inclusión y las bibliotecas
+necesarias para desarrollar programas usando gd.
+
 %description devel -l pl
 Pakiet ten zawiera pliki potrzebne do rozwoju programów korzystaj±cych
 z biblioteki GD.
 
+%description -l pt_BR devel
+Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
+para uso na Web, gerando gráficos automaticamente. Mas é útil para
+qualquer programa que precise de imagens personalizados. Não é um
+programa de desenho; é uma biblioteca.
+
+Este pacote contém os arquivos de inclusão e as bibliotecas
+necessárias para desenvolver programas usando gd.
+
 %package static
 Summary:	Static GD library
+Summary(es):	Static libraries for libgd development
 Summary(pl):	Statyczna biblioteka GD
+Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com libgd
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(es):	Desarrollo/Bibliotecas
@@ -84,12 +115,31 @@ Requires:	%{name}-devel = %{version}
 %description static
 This package contains static GD library.
 
+%description -l es static
+This is the gd image manipulating library. It was created to allow
+graphs, charts and the like to be generated on the fly for use on the
+World wide Web, but is useful for any application in which custom
+images are useful. It is not a paint program; it is a library.
+
+This package contains static libraries for libgd development.
+
 %description static -l pl
 Pakiet ten zawiera statyczn± bibliotekê GD.
 
+%description -l pt_BR static
+Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
+para uso na Web, gerando gráficos automaticamente. Mas é útil para
+qualquer programa que precise de imagens personalizados. Não é um
+programa de desenho; é uma biblioteca.
+
+Este pacote contem bibliotecas estáticas para desenvolvimento com
+libgd.
+
 %package progs
 Summary:	Utility programs that use libgd
+Summary(es):	Programas utilitarios libgd
 Summary(pl):	Narzêdzia które u¿ywaj± libgd
+Summary(pt_BR):	Programas utilitários libgd
 Group:		Applications/Graphics
 Group(de):	Applikationen/Grafik
 Group(pl):	Aplikacje/Grafika
@@ -100,8 +150,27 @@ Requires:	%{name} = %{version}
 These are utility programs supplied with gd, the .jpeg graphics
 library.
 
+%description -l es progs
+This is the gd image manipulating library. It was created to allow
+graphs, charts and the like to be generated on the fly for use on the
+World wide Web, but is useful for any application in which custom
+images are useful. It is not a paint program; it is a library.
+
+The libgd-progs package contains a group of scripts for manipulating
+the graphics files in formats which are supported by the libgd
+library.
+
 %description progs -l pl
 Pakiet ten zawiera dodatkowe programy uzywaj±ce libgd.
+
+%description -l pt_BR progs
+Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
+para uso na Web, gerando gráficos automaticamente. Mas é útil para
+qualquer programa que precise de imagens personalizados. Não é um
+programa de desenho; é uma biblioteca.
+
+Este pacote inclui vários utilitários para manipulação de arquivos gd
+para uso pelos programas que usam a libgd.
 
 %prep
 %setup -q 
