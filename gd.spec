@@ -1,11 +1,12 @@
 Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
-Version:	1.8.4
-Release:	6
+Version:	2.0.1
+Release:	1
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
+Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
@@ -13,11 +14,11 @@ Patch0:		%{name}-ac_am.patch
 URL:		http://www.boutell.com/gd/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	freetype1-devel
+BuildRequires:	libtiff-devel
+BuildRequires:	freetype-devel >= 2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define shlibver %(echo %{version} | cut -f-2 -d.)
