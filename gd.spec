@@ -11,7 +11,7 @@ URL:		http://www.boutell.com/gd/
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	freetype-devel
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This library allows you to easily create and manipulate PNG image
