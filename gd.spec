@@ -1,11 +1,12 @@
 Summary:     Library for GIF creation
 Name:        gd
 Version:     1.3
-Release:     3
+Release:     5
 Source:      ftp://ftp.boutell.com/pub/boutell/gd/%{name}%{version}.tar.gz
 URL:         http://www.boutell.com/gd/
 Patch0:      gd-shared.patch
 Patch1:      gd-non-root.patch
+Patch2:      gd-nodemo.patch
 Copyright:   BSD-style
 Group:       Libraries
 BuildRoot:   /tmp/%{name}-%{version}-root
@@ -27,6 +28,7 @@ against GD.
 %setup -q -n %{name}%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" make
@@ -54,6 +56,10 @@ rm -rf $RPM_BUILD_ROOT
 /usr/include/*
 
 %changelog
+* Mon Dec 21 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.3-5]
+- removed compiling demo programs.
+
 * Thu Sep 24  1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.3-4]
 - added -q %setup parameter,
