@@ -1,5 +1,5 @@
-Summary:	Library for PNG creation
-Summary(pl):	Biblioteka do tworzenia PNGów
+Summary:	Library for PNG, JPEG creation
+Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	1.8.2
 Release:	1
@@ -16,7 +16,14 @@ BuildRequires:	freetype-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-This library allows you to easily create and manipulate PNG image
+gd library creates PNG, JPEG and WBMP images, not GIF images. This is a
+good thing. PNG is a more compact format, and full compression is available.
+JPEG works well with photographic images, and is still more compatible with
+the major Web browsers than even PNG is. WBMP is intended for wireless
+devices (not regular web browsers). Existing code will need modification to
+call or gdImageJpeg instead of gdImageGif.
+
+This library allows you to easily create and manipulate PNG, JPEG image
 files from your C programs.
 
 %description -l pl
@@ -25,7 +32,7 @@ graficznymi w formacie PNG.
 
 %package devel
 Summary:	Development part of the GD library
-Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów.
+Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
 Group:		Development/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
@@ -41,7 +48,7 @@ z biblioteki GD.
 
 %package static
 Summary:	Static GD library
-Summary(pl):	Statyczna biblioteka GD.
+Summary(pl):	Statyczna biblioteka GD
 Group:		Development/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
@@ -74,9 +81,9 @@ make install \
         INSTALL_BIN=$RPM_BUILD_ROOT%{_bindir} \
         INSTALL_INCLUDE=$RPM_BUILD_ROOT%{_includedir} \
         INSTALL_LIB=$RPM_BUILD_ROOT%{_libdir}
-install -m 755 libgd.so.%{version} $RPM_BUILD_ROOT%{_libdir}/
-ln -s libgd.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgd.so
 
+install libgd.so.%{version} $RPM_BUILD_ROOT%{_libdir}/
+ln -s libgd.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgd.so
 
 #make DESTDIR="$RPM_BUILD_ROOT" install
 
@@ -85,7 +92,7 @@ strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/lib*.so.*.*
 gzip -9nf readme.txt index.html 
 
 %clean
-[ "$RPM_BUILD_ROOT" != "/" ] && rm -fr $RPM_BUILD_ROOT
+rm -fr $RPM_BUILD_ROOT
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -93,15 +100,13 @@ gzip -9nf readme.txt index.html
 %files
 %defattr(644,root,root,755)
 %doc readme.txt.gz
-%{_bindir}/*
-%{_libdir}/*.so.*
-
+%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
 %doc index.html.gz 
-%{_libdir}/*.so
-%{_libdir}/*.a
+%attr(755,root,root) %{_libdir}/*.so
 %{_includedir}/*
 
 %files static
