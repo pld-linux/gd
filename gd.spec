@@ -2,7 +2,7 @@ Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	2.0.1
-Release:	2
+Release:	3
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
@@ -41,7 +41,7 @@ image files from your C programs.
 
 %description -l pl
 Biblioteka pozwalaj±ca na proste tworzenie i manipulowanie plikami
-graficznymi w formacie PNG.
+graficznymi w formacie PNG, JPEG i WBMP, ale nie GIF.
 
 %package devel
 Summary:	Development part of the GD library
@@ -56,13 +56,15 @@ Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
 Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	libpng-devel
 Requires:	zlib-devel
+Requires:	libjpeg-devel
+Requires:	freetype-devel >= 2.0
 Requires:	%{name} = %{version}
 
 %description devel
 This package contains the files needed for development of programs
 linked against GD.
 
-%description -l pl devel
+%description devel -l pl
 Pakiet ten zawiera pliki potrzebne do rozwoju programów korzystaj±cych
 z biblioteki GD.
 
@@ -79,10 +81,10 @@ Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
 Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name}-devel = %{version}
 
-%description devel
+%description static
 This package contains static GD library.
 
-%description -l pl static
+%description static -l pl
 Pakiet ten zawiera statyczn± bibliotekê GD.
 
 %package progs
@@ -98,7 +100,7 @@ Requires:	%{name} = %{version}
 These are utility programs supplied with gd, the .jpeg graphics
 library.
 
-%description -l pl progs
+%description progs -l pl
 Pakiet ten zawiera dodatkowe programy uzywaj±ce libgd.
 
 %prep
