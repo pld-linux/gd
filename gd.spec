@@ -53,7 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/usr/{include,lib}
 
 install {gd,gdfontg,gdfontl,gdfontmb,gdfonts,gdfontt}.h $RPM_BUILD_ROOT/usr/include
-install -s libgd.so* $RPM_BUILD_ROOT/usr/lib
+install -s libgd.so.*.* $RPM_BUILD_ROOT/usr/lib
+mv libgd.so $RPM_BUILD_ROOT/usr/lib
 
 gzip -9nf readme.txt
 
