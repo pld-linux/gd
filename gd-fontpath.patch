@@ -1,0 +1,11 @@
+--- gd-2.0.1/gd.h.orig	Sat Aug 10 17:22:09 2002
++++ gd-2.0.1/gd.h	Sat Aug 10 18:08:33 2002
+@@ -6,7 +6,7 @@
+ #endif
+ 
+ /* default fontpath for unix systems */
+-#define DEFAULT_FONTPATH "/usr/share/fonts/truetype"
++#define DEFAULT_FONTPATH "/usr/share/fonts/TTF:/usr/share/fonts/Type1"
+ #define PATHSEPARATOR ":"
+ 
+ /* gd.h: declarations file for the graphic-draw module.

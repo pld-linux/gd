@@ -1,0 +1,64 @@
+diff -Nur gd-2.0.1.orig/Makefile.am gd-2.0.1/Makefile.am
+--- gd-2.0.1.orig/Makefile.am	Sat Aug 10 17:03:27 2002
++++ gd-2.0.1/Makefile.am	Sat Aug 10 17:13:28 2002
+@@ -31,6 +31,10 @@
+ 	gd_wbmp.c \
+ 	gdhelpers.c \
+ 	gd_topal.c \
++	gd_gif_in.c \
++	gd_gif_out.c \
++	gd_biggif_out.c \
++	gd_lzw_out.c \
+ 	gd.h \
+ 	gdfontt.h \
+ 	gdfonts.h \
+@@ -51,7 +55,7 @@
+ 
+ libgd_la_LDFLAGS = -version-info 2:0:0
+ 
+-bin_PROGRAMS = pngtogd pngtogd2 gdtopng gd2topng gd2copypal gdparttopng webpng
++bin_PROGRAMS = pngtogd pngtogd2 gdtopng gd2topng gd2copypal gdparttopng webpng gd2togif gdcmpgif giftogd2
+ 
+ noinst_PROGRAMS = gdtest gddemo gd2time gdtestft testac
+ 
+@@ -91,6 +95,15 @@
+ webpng_SOURCES = webpng.c gd.h
+ webpng_LDADD = libgd.la
+ 
++gd2togif_SOURCES = gd2togif.c gd.h
++gd2togif_LDADD = libgd.la
++
++gdcmpgif_SOURCES = gdcmpgif.c gd.h
++gdcmpgif_LDADD = libgd.la
++
++giftogd2_SOURCES = giftogd2.c gd.h
++giftogd2_LDADD = libgd.la
++
+ EXTRA_DIST = demoin.png index.html test/*
+ 
+ CLEANFILES = demoout.png
+diff -Nur gd-2.0.1.orig/gd_gif_out.c gd-2.0.1/gd_gif_out.c
+--- gd-2.0.1.orig/gd_gif_out.c	Sat Aug 10 17:03:27 2002
++++ gd-2.0.1/gd_gif_out.c	Sat Aug 10 17:12:39 2002
+@@ -8,8 +8,6 @@
+ ** Wrapper functions for GIF output.
+ */
+ 
+-#define LZW_LICENCED
+-
+ void gdImageGifToSink(gdImagePtr im, gdSinkPtr outSink)
+ {
+         gdIOCtx   *out = gdNewSSCtx(NULL,outSink);
+diff -Nur gd-2.0.1.orig/gd_lzw_out.c gd-2.0.1/gd_lzw_out.c
+--- gd-2.0.1.orig/gd_lzw_out.c	Sat Aug 10 17:03:27 2002
++++ gd-2.0.1/gd_lzw_out.c	Sat Aug 10 17:12:39 2002
+@@ -1,3 +1,4 @@
++#ifdef LZW_LICENCED
+ #include <malloc.h>
+ #include <stdio.h>
+ #include <math.h>
+@@ -794,3 +795,4 @@
+ /* |   notice appear in supporting documentation.  This software is    | */
+ /* |   provided "as is" without express or implied warranty.           | */
+ /* +-------------------------------------------------------------------+ */
++#endif
