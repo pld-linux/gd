@@ -23,7 +23,7 @@ BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %{!?_without_gif:Provides:	gd(gif) = %{version}}
