@@ -9,12 +9,12 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.23
+Version:	2.0.26
 Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	3bcd6daef3eb7b31ddc68a7d54b98c15
+# Source0-md5:	e212bd6239be2e2941d2620b4df2da98
 # based on:
 #Patch0:		http://downloads.rhyme.com.au/gd/patch_gd2.0.15_gif_030801.gz
 # current version is patch_gd2.0.21_gif_040120.gz, but it doesn't support
@@ -24,7 +24,6 @@ Patch1:		%{name}-fontpath.patch
 Patch2:		%{name}-no_ldflags_in_gdlib-config.patch
 URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
-%{!?with_xpm:BuildConflicts:	XFree86-devel}
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 2.0
@@ -33,6 +32,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	zlib-devel
+%{!?with_xpm:BuildConflicts:	XFree86-devel}
 %{?with_gif:Provides:	gd(gif) = %{version}}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
