@@ -8,7 +8,7 @@ Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.1
-Release:	6
+Release:	7
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/ftp-materials/boutell/gd/%{name}-%{version}.tar.gz
@@ -16,6 +16,8 @@ Patch0:		%{name}-ac_am.patch
 Patch1:		http://downloads.rhyme.com.au/gd/patch_%{name}%{version}_gif_20011107.gz
 Patch2:		%{name}-gif-acam.patch
 Patch3:		%{name}-fontpath.patch
+Patch4:		%{name}-gdTiled-segv.patch
+Patch5:		%{name}-fixes.patch
 URL:		http://www.boutell.com/gd/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -142,6 +144,8 @@ para uso pelos programas que usam a libgd.
 %{!?_without_gif:%patch1 -p1}
 %{!?_without_gif:%patch2 -p1}
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 %{__libtoolize}
