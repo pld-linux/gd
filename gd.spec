@@ -8,12 +8,12 @@ Summary(es):	Biblioteca para manipulación de imágenes
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.32
-Release:	2
+Version:	2.0.33
+Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	f7978941e578de778a3f4da759db7b29
+# Source0-md5:	be0a6d326cd8567e736fbc75df0a5c45
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-rotate_from_php.patch
 URL:		http://www.boutell.com/gd/
