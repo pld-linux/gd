@@ -2,7 +2,7 @@ Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	1.8.3
-Release:	1
+Release:	2
 License:	BSD-style
 Group:		Libraries
 Group(fr):	Librairies
@@ -14,6 +14,8 @@ BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	freetype-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define shlibver %(echo %{version} | cut -f-2 -d.)
 
 %description
 gd library creates PNG, JPEG and WBMP images, not GIF images. This is a
@@ -68,9 +70,9 @@ Pakiet ten zawiera statyczn± bibliotekê GD.
 CFLAGS="$RPM_OPT_FLAGS -I/usr/include/freetype"
 LDFLAGS="-s"
 export CFLAGS LDFLAGS
+make libgd.a
 gcc -shared -o libgd.so.%{version} -Wl,-soname=libgd.so.%{shlibver} \
         `ar t libgd.a` -L/usr/X11R6/lib -lttf -ljpeg -lpng -lz -lm
-
 
 %install
 
