@@ -2,7 +2,7 @@ Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	1.8.4
-Release:	5
+Release:	6
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
@@ -10,7 +10,6 @@ Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
 Patch0:		%{name}-ac_am.patch
-Patch1:		%{name}-HAVE_LIBJPEG.patch
 URL:		http://www.boutell.com/gd/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -91,7 +90,6 @@ Pakiet ten zawiera dodatkowe programu uzywaj±ce libgd
 %prep
 %setup -q 
 %patch0 -p1 
-%patch1 -p1 
 
 %build
 libtoolize --copy --force
