@@ -2,22 +2,25 @@ Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	1.8.4
-Release:	3
+Release:	4
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
+Patch0:		%{name}-ac_am.patch
 URL:		http://www.boutell.com/gd/
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	freetype-devel
+BuildRequires:	freetype1-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define 	shlibver 	%(echo %{version} | cut -f-2 -d.)
-%define		_prefix		/usr/X11R6
+%define shlibver %(echo %{version} | cut -f-2 -d.)
 
 %description
 gd library creates PNG, JPEG and WBMP images, not GIF images. This is
@@ -86,19 +89,21 @@ Pakiet ten zawiera dodatkowe programu uzywaj±ce libgd
 
 %prep
 %setup -q 
+%patch0 -p1 
 
 %build
+libtoolize --copy --force
+aclocal
+autoconf
+automake -a -c
+%configure
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{%{_libdir},%{_bindir},%{_includedir}}
-
 %{__make} install \
-        INSTALL_LIB=$RPM_BUILD_ROOT%{_libdir} \
-	INSTALL_BIN=$RPM_BUILD_ROOT%{_bindir} \
-	INSTALL_INCLUDE=$RPM_BUILD_ROOT%{_includedir} 
+        DESTDIR=$RPM_BUILD_ROOT
 
 gzip -9nf readme.txt index.html 
 
@@ -111,16 +116,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc readme.txt.gz
-%{_libdir}/lib*.a
+%attr(755,root,root) %{_libdir}/*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
 %doc index.html.gz 
+%attr(755,root,root) %{_libdir}/*.so
+%attr(755,root,root) %{_libdir}/*.la
 %{_includedir}/*
 
-#%files static
-#%defattr(644,root,root,755)
-#%{_libdir}/lib*.a
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/lib*.a
 
 %files progs
 %defattr(644,root,root,755)
