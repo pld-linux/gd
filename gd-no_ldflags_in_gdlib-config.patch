@@ -1,0 +1,20 @@
+--- gd-2.0.12/config/gdlib-config.in~	Wed Apr 23 19:26:02 2003
++++ gd-2.0.12/config/gdlib-config.in	Wed Apr 23 19:26:02 2003
+@@ -62,7 +62,7 @@
+ 	echo @GDLIB_REVISION@
+ 	;;
+     --ldflags)
+-	echo @LDFLAGS@
++	echo "-L/usr/X11R6/lib"
+ 	;;
+     --libs)
+ 	echo @LIBS@
+@@ -74,7 +71,7 @@
+ 	echo "GD library  @VERSION@"
+ 	echo "includedir: $includedir"
+ 	echo "cflags:     -I@includedir@"
+-	echo "ldflags:    @LDFLAGS@"
++	echo "ldflags:    -L/usr/X11R6/lib"
+ 	echo "libs:       @LIBS@"
+ 	echo "libdir:     $libdir"
+ 	;;
