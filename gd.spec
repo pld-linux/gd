@@ -4,7 +4,7 @@ Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.1
-Release:	3
+Release:	4
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
