@@ -1,7 +1,7 @@
 #
-# _without_gif	- without GIF support (patch from http://www.rhyme.com.au/gd/)
-# _without_lzw	- without LZW compression in GIF creation functions
-# _without_xpm	- without XPM support (requires X11 libs)
+%bcond_without	gif	# without GIF support (patch from http://www.rhyme.com.au/gd/)
+%bcond_without	lzw	# without LZW compression in GIF creation functions
+%bcond_without	xpm	# without XPM support (requires X11 libs)
 #
 Summary:	Library for PNG, JPEG creation
 Summary(es):	Biblioteca para manipulación de imágenes
@@ -9,7 +9,7 @@ Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.15
-Release:	3
+Release:	4
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
@@ -20,8 +20,8 @@ Patch2:		%{name}-fontpath.patch
 Patch3:		%{name}-no_ldflags_in_gdlib-config.patch
 Patch4:		%{name}-freetype_includes.patch
 URL:		http://www.boutell.com/gd/
-%{!?_without_xpm:BuildRequires:	XFree86-devel}
-%{?_without_xpm:BuildConflicts:	XFree86-devel}
+%{?with_xpm:BuildRequires:	XFree86-devel}
+%{!?with_xpm:BuildConflicts:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 2.0
@@ -30,7 +30,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	zlib-devel
-%{!?_without_gif:Provides:	gd(gif) = %{version}}
+%{?with_gif:Provides:	gd(gif) = %{version}}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -43,7 +43,7 @@ format, and full compression is available. JPEG works well with
 photographic images, and is still more compatible with the major Web
 browsers than even PNG is. WBMP is intended for wireless devices (not
 regular web browsers).
-%{!?_without_gif:This version has additional GIF images support.}
+%{?with_gif:This version has additional GIF images support.}
 
 %description -l es
 Esta es la biblioteca gd para el manejo de imágenes. Fue creada para
@@ -61,7 +61,7 @@ kompresj±. JPEG dobrze nadaje siê do obrazów fotograficznych i jest
 obs³ugiwany nawet przez wiêcej przegl±darek WWW ni¿ PNG. WBMP jest
 przeznaczony dla urz±dzeñ bezprzewodowych (a nie zwyk³ych przegl±darek
 WWW).
-%{!?_without_gif:Ta wersja ma dodatkowo obs³ugê formatu GIF.}
+%{?with_gif:Ta wersja ma dodatkowo obs³ugê formatu GIF.}
 
 %description -l pt_BR
 Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
@@ -76,12 +76,12 @@ Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
 Summary(pt_BR):	Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
-%{!?_without_xpm:Requires:	XFree86-devel}
+%{?with_xpm:Requires:	XFree86-devel}
 Requires:	freetype-devel >= 2.0
 Requires:	libjpeg-devel
 Requires:	libpng-devel
 Requires:	zlib-devel
-%{!?_without_gif:Provides:	gd-devel(gif) = %{version}}
+%{?with_gif:Provides:	gd-devel(gif) = %{version}-%{release}}
 
 %description devel
 This package contains the files needed for development of programs
@@ -105,7 +105,7 @@ Summary(pl):	Statyczna biblioteka GD
 Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com libgd
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}
-%{!?_without_gif:Provides:	gd-static(gif) = %{version}}
+%{?with_gif:Provides:	gd-static(gif) = %{version}-%{release}}
 
 %description static
 This package contains static gd library.
@@ -124,7 +124,7 @@ Summary(pl):	Narzêdzia u¿ywaj±ce libgd
 Summary(pt_BR):	Programas utilitários libgd
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}
-%{!?_without_gif:Provides:	gd-progs(gif) = %{version}}
+%{?with_gif:Provides:	gd-progs(gif) = %{version}-%{release}}
 
 %description progs
 These are utility programs supplied with gd, the image manipulation
@@ -155,7 +155,7 @@ para uso pelos programas que usam a libgd.
 %{__aclocal}
 %{__automake}
 %{__autoconf}
-%{!?_without_lzw:CPPFLAGS="-DLZW_LICENCED"}
+%{?with_lzw:CPPFLAGS="-DLZW_LICENCED"}
 %configure
 %{__make}
 
