@@ -1,0 +1,139 @@
+diff -Nru gd-1.8.3/Makefile.am gd-1.8.3.new/Makefile.am
+--- gd-1.8.3/Makefile.am	Thu Jan  1 01:00:00 1970
++++ gd-1.8.3.new/Makefile.am	Wed Aug 30 06:09:19 2000
+@@ -0,0 +1,88 @@
++## Process this file with automake to produce Makefile.in
++
++AUTOMAKE_OPTIONS = 1.4
++
++INCLUDES = -I$(includedir)/freetype
++
++lib_LTLIBRARIES = libgd.la
++
++libgd_la_SOURCES = \
++	gd.c \
++	gd_gd.c \
++	gd_gd2.c \
++	gd_io.c \
++	gd_io_dp.c \
++	gd_io_file.c \
++	gd_ss.c \
++	gd_io_ss.c \
++	gd_png.c \
++	gd_jpeg.c \
++	gdxpm.c \
++	gdfontt.c \
++	gdfonts.c \
++	gdfontmb.c \
++	gdfontl.c \
++	gdfontg.c \
++	gdtables.c \
++	gdttf.c \
++	gdcache.c \
++	gdkanji.c \
++	wbmp.c \
++	gd_wbmp.c \
++	gd.h \
++	gdfontt.h \
++	gdfonts.h \
++	gdfontmb.h \
++	gdfontl.h \
++	gdfontg.h
++
++include_HEADERS = \
++	gd.h \
++	gdcache.h \
++	gd_io.h \
++	gdfontg.h \
++	gdfontl.h \
++	gdfontmb.h \
++	gdfonts.h \
++	gdfontt.h
++
++bin_PROGRAMS = pngtogd pngtogd2 gdtopng gd2topng gd2copypal gdparttopng webpng
++
++noinst_PROGRAMS = gdtest gddemo gd2time gdtestttf
++
++gdtest_SOURCES = gdtest.c gd.h
++gdtest_LDADD = libgd.la
++
++gdtestttf_SOURCES = gdtestttf.c gd.h
++gdtestttf_LDADD = libgd.la
++
++gddemo_SOURCES = gddemo.c gd.h gdfonts.h gdfontg.h
++gddemo_LDADD = libgd.la
++
++pngtogd_SOURCES = pngtogd.c gd.h
++pngtogd_LDADD = libgd.la
++
++pngtogd2_SOURCES = pngtogd2.c gd.h
++pngtogd2_LDADD = libgd.la
++
++gdtopng_SOURCES = gdtopng.c gd.h
++gdtopng_LDADD = libgd.la
++
++gd2topng_SOURCES = gd2topng.c gd.h
++gd2topng_LDADD = libgd.la
++
++gd2copypal_SOURCES = gd2copypal.c gd.h
++gd2copypal_LDADD = libgd.la
++
++gdparttopng_SOURCES = gdparttopng.c gd.h
++gdparttopng_LDADD = libgd.la
++
++gd2time_SOURCES = gd2time.c gd.h
++gd2time_LDADD = libgd.la
++
++webpng_SOURCES = webpng.c gd.h
++webpng_LDADD = libgd.la
++
++EXTRA_DIST = demoin.png index.html test/*
++
++CLEANFILES = demoout.png
+diff -Nru gd-1.8.3/configure.in gd-1.8.3.new/configure.in
+--- gd-1.8.3/configure.in	Thu Jan  1 01:00:00 1970
++++ gd-1.8.3.new/configure.in	Wed Aug 30 06:11:10 2000
+@@ -0,0 +1,43 @@
++dnl Process this file with autoconf to produce a configure script
++
++AC_INIT(configure.in)
++
++AC_CANONICAL_SYSTEM
++
++AM_INIT_AUTOMAKE(gd, 1.8.3)
++
++AM_MAINTAINER_MODE
++
++dnl Checks for programs.
++AC_PROG_AWK
++AC_PROG_CC
++AC_PROG_INSTALL
++AC_PROG_LN_S
++AC_PROG_MAKE_SET
++AM_PROG_LIBTOOL
++
++dnl Checks for libraries.
++dnl Replace `main' with a function in -ljpeg:
++AC_CHECK_LIB(jpeg, main)
++dnl Replace `main' with a function in -lm:
++AC_CHECK_LIB(m, main)
++dnl Replace `main' with a function in -lpng:
++AC_CHECK_LIB(png, main, ,AC_MSG_ERROR(libpng not found.))
++dnl Replace `main' with a function in -lttf:
++AC_CHECK_LIB(ttf, main)
++dnl Replace `main' with a function in -lz:
++AC_CHECK_LIB(z, main, ,AC_MSG_ERROR(libz not found.))
++
++dnl Checks for header files.
++AC_HEADER_STDC
++AC_CHECK_HEADERS(limits.h malloc.h unistd.h)
++
++dnl Checks for typedefs, structures, and compiler characteristics.
++AC_C_CONST
++AC_TYPE_SIZE_T
++
++dnl Checks for library functions.
++AC_FUNC_VPRINTF
++AC_CHECK_FUNCS(strtol)
++
++AC_OUTPUT(Makefile)
