@@ -1,8 +1,8 @@
 Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
-Version:	1.8.3
-Release:	8
+Version:	1.8.4
+Release:	1
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
@@ -92,9 +92,9 @@ Pakiet ten zawiera dodatkowe programu uzywaj±ce libgd
 
 %build
 libtoolize --copy --force
-automake -a -c
 aclocal
 autoconf
+automake -a -c
 %configure
 %{__make}
 
