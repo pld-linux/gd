@@ -1,6 +1,7 @@
 #
 # _without_gif	- without GIF support (patch from http://www.rhyme.com.au/gd/)
 # _without_lzw	- without LZW compression in GIF creation functions
+# _without_xpm	- without XPM support (requires X11 libs)
 #
 Summary:	Library for PNG, JPEG creation
 Summary(es):	Biblioteca para manipulación de imágenes
@@ -18,6 +19,8 @@ Patch1:		%{name}-gif-am.patch
 Patch2:		%{name}-fontpath.patch
 Patch3:		%{name}-no_ldflags_in_gdlib-config.patch
 URL:		http://www.boutell.com/gd/
+%{!?_without_xpm:BuildRequires:	XFree86-devel}
+%{?_without_xpm:BuildConflicts:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 2.0
@@ -72,6 +75,7 @@ Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
 Summary(pt_BR):	Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
+%{!?_without_xpm:Requires:	XFree86-devel}
 Requires:	freetype-devel >= 2.0
 Requires:	libjpeg-devel
 Requires:	libpng-devel
