@@ -2,7 +2,7 @@ Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	1.8.3
-Release:	7
+Release:	8
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
@@ -71,6 +71,21 @@ This package contains static GD library.
 %description -l pl static
 Pakiet ten zawiera statyczn± bibliotekê GD.
 
+%package progs
+Summary:	Utility programs that use libgd
+Summary(pl):	Narzêdzia które u¿ywaj± libgd
+Group:		Applications/Graphics
+Group(de):	Applikationen/Grafik
+Group(pl):	Aplikacje/Grafika
+Requires:	%{name} = %{version}
+
+%description progs
+These are utility programs supplied with gd, the .jpeg graphics
+library.
+
+%description -l pl progs
+Pakiet ten zawiera dodatkowe programu uzywaj±ce libgd
+
 %prep
 %setup -q 
 %patch0 -p1 
@@ -100,7 +115,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc readme.txt.gz
-%attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*.so.*.*
 
 %files devel
@@ -113,3 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
+
+%files progs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/*
