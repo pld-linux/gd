@@ -16,6 +16,7 @@ BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
+BuildRequires:	libjpeg-devel
 BuildRequires:	freetype-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
