@@ -2,7 +2,7 @@ Summary:	Library for PNG, JPEG creation
 Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Name:		gd
 Version:	1.8.3
-Release:	6
+Release:	7
 License:	BSD-style
 Group:		Libraries
 Group(de):	Libraries
