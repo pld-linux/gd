@@ -52,7 +52,7 @@ install %{SOURCE1} .
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/usr/{include,lib}
 
-install {gd,gdfontg,gdfontl,gdfontmb,gdfonts,gdfontt}.h $RPM_BUILD_ROOT/usr/include
+install {gd,gdfontg,gdfontl,gdfontmb,gdfonts,gdfontt}.h $RPM_BUILD_ROOT%{_includedir}
 install -s libgd.so.*.* $RPM_BUILD_ROOT%{_libdir}
 mv libgd.so $RPM_BUILD_ROOT%{_libdir}
 
@@ -71,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc readme.txt.gz index.html gd-ref.html
 %attr(755,root,root) %{_libdir}/*.so
-/usr/include/*
+%{_includedir}/*
 
 %changelog
 * Sun Apr 25 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
