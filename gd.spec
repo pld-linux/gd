@@ -5,7 +5,7 @@ Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.1
 Release:	4
-License:	BSD-style
+License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/ftp-materials/boutell/gd/%{name}-%{version}.tar.gz
 Patch0:		%{name}-ac_am.patch
