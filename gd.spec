@@ -7,13 +7,6 @@ Version:	2.0.1
 Release:	4
 License:	BSD-style
 Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
-Group(pt_BR):	Bibliotecas
-Group(ru):	Библиотеки
-Group(uk):	Б╕бл╕отеки
 Source0:	http://www.boutell.com/ftp-materials/boutell/gd/%{name}-%{version}.tar.gz
 Patch0:		%{name}-ac_am.patch
 URL:		http://www.boutell.com/gd/
@@ -63,13 +56,6 @@ Summary(es):	Archivos de inclusiСn y bibliotecas para desarrollar programas usan
 Summary(pl):	CzЙ╤Ф biblioteki GD przeznaczona dla developerСw
 Summary(pt_BR):	Arquivos de inclusЦo e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	libpng-devel
 Requires:	zlib-devel
 Requires:	libjpeg-devel
@@ -98,13 +84,6 @@ Summary(es):	Static libraries for libgd development
 Summary(pl):	Statyczna biblioteka GD
 Summary(pt_BR):	Bibliotecas estАticas para desenvolvimento com libgd
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-devel = %{version}
 
 %description static
@@ -129,9 +108,6 @@ Summary(es):	Programas utilitarios libgd
 Summary(pl):	NarzЙdzia ktСre u©ywaj╠ libgd
 Summary(pt_BR):	Programas utilitАrios libgd
 Group:		Applications/Graphics
-Group(de):	Applikationen/Grafik
-Group(pl):	Aplikacje/Grafika
-Group(pt):	AplicaГУes/GrАficos
 Requires:	%{name} = %{version}
 
 %description progs
