@@ -1,13 +1,12 @@
 Summary:	Library for PNG creation
 Summary(pl):	Biblioteka do tworzenia PNGów
 Name:		gd
-Version:	1.6.2
+Version:	1.6.3
 Release:	1
 Copyright:	BSD-style
 Group:		Libraries
 Group(pl):	Biblioteki
 Source0:	ftp://ftp.boutell.com/pub/boutell/gd/%{name}-%{version}.tar.gz
-Source1:	gd-ref.html
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	freetype-devel
@@ -51,8 +50,7 @@ This package contains static GD library.
 Pakiet ten zawiera statyczn± bibliotekê GD.
 
 %prep
-%setup -q -n %{name}-%{version}
-install %{SOURCE1} .
+%setup -q 
 
 %build
 %configure
@@ -62,7 +60,7 @@ make
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR="$RPM_BUILD_ROOT" install
 strip $RPM_BUILD_ROOT{%{_bindir}/*,%{_libdir}/*.so} || :
-gzip -9nf NEWS README index.html gd-ref.html
+gzip -9nf NEWS README index.html 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -75,12 +73,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc {NEWS,README}.gz
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*.so.*.*
-%attr(644,root,root) %{_libdir}/libgd.la
 
 %files devel
 %defattr(644,root,root,755)
-%doc index.html.gz gd-ref.html.gz
+%doc index.html.gz 
 %attr(755,root,root) %{_libdir}/*.so
+%attr(644,root,root) %{_libdir}/libgd.la
 %{_includedir}/*
 
 %files static
