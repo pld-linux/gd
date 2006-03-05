@@ -1,0 +1,14 @@
+--- gd-2.0.33/gd.c.orig	2004-11-01 21:28:56.000000000 +0300
++++ gd-2.0.33/gd.c	2005-09-09 00:00:42.000000000 +0400
+@@ -3032,6 +3032,11 @@
+ static void gdImageSetAAPixelColor(gdImagePtr im, int x, int y, int color, int t)
+ {
+ 	int dr,dg,db,p,r,g,b;
++
++        /* Nikita Shulga: Can be called by gdImageAALine outside of clipped range*/
++        /* Should avoid any drawing in that case */
++        if (!gdImageBoundsSafeMacro(im,x,y)) return;
++
+ 	p = gdImageGetPixel(im,x,y);
+         /* TBB: we have to implement the dont_blend stuff to provide
+           the full feature set of the old implementation */
