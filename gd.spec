@@ -9,7 +9,7 @@ Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.33
-Release:	6
+Release:	5
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
@@ -18,6 +18,7 @@ Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-rotate_from_php.patch
 Patch2:		%{name}-graphviz.patch
 URL:		http://www.boutell.com/gd/
+%{?with_xpm:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
@@ -27,7 +28,6 @@ BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
-%{?with_xpm:BuildRequires:	xorg-lib-libXpm}
 BuildRequires:	zlib-devel
 Provides:	gd(gif) = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -72,11 +72,11 @@ Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
 Summary(pt_BR):	Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+%{?with_xpm:Requires:	XFree86-devel}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 2.0
 Requires:	libjpeg-devel
 Requires:	libpng-devel
-%{?with_xpm:Requires:	xorg-lib-libXpm}
 Requires:	zlib-devel
 Provides:	gd-devel(gif) = %{version}-%{release}
 
@@ -142,8 +142,8 @@ para uso pelos programas que usam a libgd.
 %patch1 -p1
 %patch2 -p1
 
-# hack to avoid inclusion of -s in --ldflags
-%{__perl} -pi -e 's,\@LDFLAGS\@,,g' config/gdlib-config.in
+# hack to avoid inclusion of -s or -L/usr/%{_lib} in --ldflags
+%{__perl} -pi -e 's,\@LDFLAGS\@,-L/usr/X11R6/%{_lib},g' config/gdlib-config.in
 
 %build
 %{__libtoolize}
