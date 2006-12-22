@@ -9,7 +9,7 @@ Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.33
-Release:	8
+Release:	9
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
@@ -32,6 +32,7 @@ BuildRequires:	libtool >= 1:1.4.3
 %{?with_xpm:BuildRequires:	xorg-lib-libXpm}
 BuildRequires:	zlib-devel
 Provides:	gd(gif) = %{version}-%{release}
+Provides:	gd(imagerotate) = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -81,6 +82,7 @@ Requires:	libpng-devel
 %{?with_xpm:Requires:	xorg-lib-libXpm}
 Requires:	zlib-devel
 Provides:	gd-devel(gif) = %{version}-%{release}
+Provides:	gd-devel(imagerotate) = %{version}-%{release}
 
 %description devel
 This package contains the files needed for development of programs
@@ -105,6 +107,7 @@ Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com libgd
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Provides:	gd-static(gif) = %{version}-%{release}
+Provides:	gd-static(imagerotate) = %{version}-%{release}
 
 %description static
 This package contains static gd library.
