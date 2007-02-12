@@ -9,16 +9,16 @@ Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.33
-Release:	12
+Release:	13
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
 # Source0-md5:	be0a6d326cd8567e736fbc75df0a5c45
 Patch0:		%{name}-fontpath.patch
-Patch1:		%{name}-rotate_from_php.patch
+Patch1:		%{name}-SetAAPixel.patch
 Patch2:		%{name}-graphviz.patch
-Patch3:		%{name}-SetAAPixel.patch
-Patch4:		%{name}-security.patch
+Patch3:		%{name}-security.patch
+Patch4:		%{name}-rotate_from_php.patch
 URL:		http://www.boutell.com/gd/
 %{?with_xpm:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf >= 2.54
@@ -26,12 +26,14 @@ BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
 BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	gettext-devel
-BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	zlib-devel
 Provides:	gd(gif) = %{version}-%{release}
+# versioned by php version rotate_from_php code comes from
+Provides:	gd(imagerotate) = 5.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -81,6 +83,7 @@ Requires:	libjpeg-devel
 Requires:	libpng-devel
 Requires:	zlib-devel
 Provides:	gd-devel(gif) = %{version}-%{release}
+Provides:	gd-devel(imagerotate) = 5.2.0
 
 %description devel
 This package contains the files needed for development of programs
@@ -105,6 +108,7 @@ Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com libgd
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Provides:	gd-static(gif) = %{version}-%{release}
+Provides:	gd-static(imagerotate) = 5.2.0
 
 %description static
 This package contains static gd library.
@@ -146,8 +150,8 @@ para uso pelos programas que usam a libgd.
 %patch3 -p1
 %patch4 -p1
 
-# hack to avoid inclusion of -s or -L/usr/%{_lib} in --ldflags
-%{__perl} -pi -e 's,\@LDFLAGS\@,-L/usr/X11R6/%{_lib},g' config/gdlib-config.in
+# hack to avoid inclusion of -s in --ldflags
+%{__perl} -pi -e 's,\@LDFLAGS\@,,g' config/gdlib-config.in
 
 %build
 %{__libtoolize}
@@ -175,18 +179,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc COPYING index.html
-%attr(755,root,root) %{_libdir}/*.so.*.*
+%attr(755,root,root) %{_libdir}/libgd.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gdlib-config
-%attr(755,root,root) %{_libdir}/*.so
-%{_libdir}/*.la
-%{_includedir}/*
+%attr(755,root,root) %{_libdir}/libgd.so
+%{_libdir}/libgd.la
+%{_includedir}/*.h
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libgd.a
 
 %files progs
 %defattr(644,root,root,755)
