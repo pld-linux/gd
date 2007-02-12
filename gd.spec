@@ -4,9 +4,9 @@
 %bcond_without	xpm		# without XPM support (requires X11 libs)
 #
 Summary:	Library for PNG, JPEG creation
-Summary(es):	Biblioteca para manipulación de imágenes
-Summary(pl):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
-Summary(pt_BR):	Biblioteca para manipulação de imagens
+Summary(es.UTF-8):   Biblioteca para manipulaciÃ³n de imÃ¡genes
+Summary(pl.UTF-8):   Biblioteka do tworzenia grafiki w formacie PNG, JPEG
+Summary(pt_BR.UTF-8):   Biblioteca para manipulaÃ§Ã£o de imagens
 Name:		gd
 Version:	2.0.33
 Release:	10
@@ -46,34 +46,34 @@ compression is available. JPEG works well with photographic images,
 and is still more compatible with the major Web browsers than even PNG
 is. WBMP is intended for wireless devices (not regular web browsers).
 
-%description -l es
-Esta es la biblioteca gd para el manejo de imágenes. Fue creada para
-uso en la Web, creando gráficos automáticamente. Pero es útil para
-cualquier programa que necesite de imágenes personalizados. No es un
+%description -l es.UTF-8
+Esta es la biblioteca gd para el manejo de imÃ¡genes. Fue creada para
+uso en la Web, creando grÃ¡ficos automÃ¡ticamente. Pero es Ãºtil para
+cualquier programa que necesite de imÃ¡genes personalizados. No es un
 programa de dibujo; es una biblioteca.
 
-%description -l pl
-gd to biblioteka do obróbki obrazów. Zosta³a stworzona, aby umo¿liwiæ
-dynamiczne generowanie wykresów i podobnych rzeczy na potrzeby WWW,
-ale mo¿e byæ przydatna tak¿e dla ka¿dej aplikacji tworz±cej w³asne
-obrazy. Biblioteka ta pozwala na tworzenie plików graficznych w
+%description -l pl.UTF-8
+gd to biblioteka do obrÃ³bki obrazÃ³w. ZostaÅ‚a stworzona, aby umoÅ¼liwiÄ‡
+dynamiczne generowanie wykresÃ³w i podobnych rzeczy na potrzeby WWW,
+ale moÅ¼e byÄ‡ przydatna takÅ¼e dla kaÅ¼dej aplikacji tworzÄ…cej wÅ‚asne
+obrazy. Biblioteka ta pozwala na tworzenie plikÃ³w graficznych w
 formatach PNG, JPEG, GIF i WBMP. PNG jest zwartym formatem z
-bezstratn± kompresj±. JPEG dobrze nadaje siê do obrazów
-fotograficznych i jest obs³ugiwany nawet przez wiêcej przegl±darek WWW
-ni¿ PNG. WBMP jest przeznaczony dla urz±dzeñ bezprzewodowych (a nie
-zwyk³ych przegl±darek WWW).
+bezstratnÄ… kompresjÄ…. JPEG dobrze nadaje siÄ™ do obrazÃ³w
+fotograficznych i jest obsÅ‚ugiwany nawet przez wiÄ™cej przeglÄ…darek WWW
+niÅ¼ PNG. WBMP jest przeznaczony dla urzÄ…dzeÅ„ bezprzewodowych (a nie
+zwykÅ‚ych przeglÄ…darek WWW).
 
-%description -l pt_BR
-Esta é a biblioteca gd para manipulação de imagens. Ela foi criada
-para uso na Web, gerando gráficos automaticamente. Mas é útil para
-qualquer programa que precise de imagens personalizados. Não é um
-programa de desenho; é uma biblioteca.
+%description -l pt_BR.UTF-8
+Esta Ã© a biblioteca gd para manipulaÃ§Ã£o de imagens. Ela foi criada
+para uso na Web, gerando grÃ¡ficos automaticamente. Mas Ã© Ãºtil para
+qualquer programa que precise de imagens personalizados. NÃ£o Ã© um
+programa de desenho; Ã© uma biblioteca.
 
 %package devel
 Summary:	Development part of the GD library
-Summary(es):	Archivos de inclusión y bibliotecas para desarrollar programas usando gd
-Summary(pl):	Czê¶æ biblioteki GD przeznaczona dla developerów
-Summary(pt_BR):	Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
+Summary(es.UTF-8):   Archivos de inclusiÃ³n y bibliotecas para desarrollar programas usando gd
+Summary(pl.UTF-8):   CzÄ™Å›Ä‡ biblioteki GD przeznaczona dla developerÃ³w
+Summary(pt_BR.UTF-8):   Arquivos de inclusÃ£o e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	fontconfig-devel
@@ -89,22 +89,22 @@ Provides:	gd-devel(imagerotate) = 5.2.0
 This package contains the files needed for development of programs
 linked against GD.
 
-%description devel -l es
-Este paquete contiene los archivos de inclusión y las bibliotecas
+%description devel -l es.UTF-8
+Este paquete contiene los archivos de inclusiÃ³n y las bibliotecas
 necesarias para desarrollar programas usando gd.
 
-%description devel -l pl
-Pakiet ten zawiera pliki potrzebne do rozwoju programów korzystaj±cych
+%description devel -l pl.UTF-8
+Pakiet ten zawiera pliki potrzebne do rozwoju programÃ³w korzystajÄ…cych
 z biblioteki GD.
 
-%description devel -l pt_BR
-Este pacote contém os arquivos de inclusão e as bibliotecas
-necessárias para desenvolver programas usando gd.
+%description devel -l pt_BR.UTF-8
+Este pacote contÃ©m os arquivos de inclusÃ£o e as bibliotecas
+necessÃ¡rias para desenvolver programas usando gd.
 
 %package static
 Summary:	Static GD library
-Summary(pl):	Statyczna biblioteka GD
-Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com libgd
+Summary(pl.UTF-8):   Statyczna biblioteka GD
+Summary(pt_BR.UTF-8):   Bibliotecas estÃ¡ticas para desenvolvimento com libgd
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Provides:	gd-static(gif) = %{version}-%{release}
@@ -113,18 +113,18 @@ Provides:	gd-static(imagerotate) = 5.2.0
 %description static
 This package contains static gd library.
 
-%description static -l pl
-Ten pakiet zawiera statyczn± bibliotekê gd.
+%description static -l pl.UTF-8
+Ten pakiet zawiera statycznÄ… bibliotekÄ™ gd.
 
-%description static -l pt_BR
-Este pacote contem bibliotecas estáticas para desenvolvimento com
+%description static -l pt_BR.UTF-8
+Este pacote contem bibliotecas estÃ¡ticas para desenvolvimento com
 libgd.
 
 %package progs
 Summary:	Utility programs that use libgd
-Summary(es):	Programas utilitarios libgd
-Summary(pl):	Narzêdzia u¿ywaj±ce libgd
-Summary(pt_BR):	Programas utilitários libgd
+Summary(es.UTF-8):   Programas utilitarios libgd
+Summary(pl.UTF-8):   NarzÄ™dzia uÅ¼ywajÄ…ce libgd
+Summary(pt_BR.UTF-8):   Programas utilitÃ¡rios libgd
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 
@@ -134,12 +134,12 @@ library. The libgd-progs package contains a group of scripts for
 manipulating the graphics files in formats which are supported by the
 libgd library.
 
-%description progs -l pl
-Ten pakiet zawiera programy u¿ywaj±ce biblioteki gd, s³u¿±ce do
-obróbki plików graficznych w formatach obs³ugiwanych przez libgd.
+%description progs -l pl.UTF-8
+Ten pakiet zawiera programy uÅ¼ywajÄ…ce biblioteki gd, sÅ‚uÅ¼Ä…ce do
+obrÃ³bki plikÃ³w graficznych w formatach obsÅ‚ugiwanych przez libgd.
 
-%description progs -l pt_BR
-Este pacote inclui vários utilitários para manipulação de arquivos gd
+%description progs -l pt_BR.UTF-8
+Este pacote inclui vÃ¡rios utilitÃ¡rios para manipulaÃ§Ã£o de arquivos gd
 para uso pelos programas que usam a libgd.
 
 %prep
