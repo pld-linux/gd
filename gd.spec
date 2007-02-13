@@ -4,9 +4,9 @@
 %bcond_without	xpm		# without XPM support (requires X11 libs)
 #
 Summary:	Library for PNG, JPEG creation
-Summary(es.UTF-8):   Biblioteca para manipulación de imágenes
-Summary(pl.UTF-8):   Biblioteka do tworzenia grafiki w formacie PNG, JPEG
-Summary(pt_BR.UTF-8):   Biblioteca para manipulação de imagens
+Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
+Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
+Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.33
 Release:	10
@@ -71,9 +71,9 @@ programa de desenho; é uma biblioteca.
 
 %package devel
 Summary:	Development part of the GD library
-Summary(es.UTF-8):   Archivos de inclusión y bibliotecas para desarrollar programas usando gd
-Summary(pl.UTF-8):   Część biblioteki GD przeznaczona dla developerów
-Summary(pt_BR.UTF-8):   Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
+Summary(es.UTF-8):	Archivos de inclusión y bibliotecas para desarrollar programas usando gd
+Summary(pl.UTF-8):	Część biblioteki GD przeznaczona dla developerów
+Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	fontconfig-devel
@@ -103,8 +103,8 @@ necessárias para desenvolver programas usando gd.
 
 %package static
 Summary:	Static GD library
-Summary(pl.UTF-8):   Statyczna biblioteka GD
-Summary(pt_BR.UTF-8):   Bibliotecas estáticas para desenvolvimento com libgd
+Summary(pl.UTF-8):	Statyczna biblioteka GD
+Summary(pt_BR.UTF-8):	Bibliotecas estáticas para desenvolvimento com libgd
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Provides:	gd-static(gif) = %{version}-%{release}
@@ -122,9 +122,9 @@ libgd.
 
 %package progs
 Summary:	Utility programs that use libgd
-Summary(es.UTF-8):   Programas utilitarios libgd
-Summary(pl.UTF-8):   Narzędzia używające libgd
-Summary(pt_BR.UTF-8):   Programas utilitários libgd
+Summary(es.UTF-8):	Programas utilitarios libgd
+Summary(pl.UTF-8):	Narzędzia używające libgd
+Summary(pt_BR.UTF-8):	Programas utilitários libgd
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 
