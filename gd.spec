@@ -8,18 +8,16 @@ Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.33
-Release:	10
+%define	snap	RC3
+Version:	2.0.35
+Release:	0.%{snap}.1
 License:	BSD-like
 Group:		Libraries
-Source0:	http://www.boutell.com/gd/http/%{name}-%{version}.tar.gz
-# Source0-md5:	be0a6d326cd8567e736fbc75df0a5c45
+Source0:	http://www.libgd.org/releases/%{name}-%{version}%{snap}.tar.bz2
+# Source0-md5:	d5c8d532fad01a8b83160bb09e342d2a
 Patch0:		%{name}-fontpath.patch
-Patch1:		%{name}-SetAAPixel.patch
-Patch2:		%{name}-graphviz.patch
-Patch3:		%{name}-security.patch
-Patch4:		%{name}-rotate_from_php.patch
-URL:		http://www.boutell.com/gd/
+Patch1:		%{name}-rotate_from_php.patch
+URL:		http://www.libgd.org/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
@@ -143,12 +141,9 @@ Este pacote inclui vários utilitários para manipulação de arquivos gd
 para uso pelos programas que usam a libgd.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}%{snap}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 # hack to avoid inclusion of -s in --ldflags
 %{__perl} -pi -e 's,\@LDFLAGS\@,,g' config/gdlib-config.in
