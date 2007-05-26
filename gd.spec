@@ -8,13 +8,13 @@ Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-%define	snap	RC3
+%define	snap	RC4
 Version:	2.0.35
 Release:	0.%{snap}.1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.libgd.org/releases/%{name}-%{version}%{snap}.tar.bz2
-# Source0-md5:	d5c8d532fad01a8b83160bb09e342d2a
+# Source0-md5:	caea0e4773037ef5ba8360c160671e16
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-rotate_from_php.patch
 URL:		http://www.libgd.org/
