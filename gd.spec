@@ -9,7 +9,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.35
-Release:	2
+Release:	3
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.libgd.org/releases/%{name}-%{version}.tar.bz2
@@ -26,7 +26,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
-%{?with_xpm:BuildRequires:	xorg-lib-libXpm}
+%{?with_xpm:BuildRequires:	xorg-lib-libXpm-devel}
 BuildRequires:	zlib-devel
 Provides:	gd(gif) = %{version}-%{release}
 # versioned by php version rotate_from_php code comes from
@@ -77,7 +77,7 @@ Requires:	fontconfig-devel
 Requires:	freetype-devel >= 2.0
 Requires:	libjpeg-devel
 Requires:	libpng-devel
-%{?with_xpm:Requires:	xorg-lib-libXpm}
+%{?with_xpm:Requires:	xorg-lib-libXpm-devel}
 Requires:	zlib-devel
 Provides:	gd-devel(gif) = %{version}-%{release}
 Provides:	gd-devel(imagerotate) = 5.2.0
