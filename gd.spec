@@ -3,17 +3,19 @@
 %bcond_without	fontconfig	# without fontconfig support
 %bcond_without	xpm		# without XPM support (requires X11 libs)
 #
+%define		rel	0.1
+%define		subver	RC1
 Summary:	Library for PNG, JPEG creation
 Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.35
-Release:	4
+Version:	2.0.36
+Release:	0.RC1.%{rel}
 License:	BSD-like
 Group:		Libraries
-Source0:	http://www.libgd.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	6c6c3dbb7bf079e0bb5fbbfd3bb8a71c
+Source0:	http://www.libgd.org/releases/%{name}-%{version}%{subver}.tar.bz2
+# Source0-md5:	e876979ca3130623a4e7866d9579171a
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-rotate_from_php.patch
 URL:		http://www.libgd.org/
@@ -22,8 +24,8 @@ BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
 BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	gettext-devel
-BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
 %{?with_xpm:BuildRequires:	xorg-lib-libXpm-devel}
@@ -140,7 +142,7 @@ Este pacote inclui vários utilitários para manipulação de arquivos gd
 para uso pelos programas que usam a libgd.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}%{subver}
 %patch0 -p1
 %patch1 -p1
 
