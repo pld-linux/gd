@@ -22,7 +22,7 @@ BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
 BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	gettext-devel
-BuildRequires:	libpng-devel
+BuildRequires:	libpng-devel >= 2:1.4.0
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
@@ -146,6 +146,9 @@ para uso pelos programas que usam a libgd.
 
 # hack to avoid inclusion of -s in --ldflags
 %{__perl} -pi -e 's,\@LDFLAGS\@,,g' config/gdlib-config.in
+
+# png_check_sig was replaced by png_sig_cmp in libpng
+%{__sed} -i -e 's/if (!png_check_sig (sig, 8))/if (png_sig_cmp(sig, 0, 8))/g' gd_png.c
 
 %build
 %{__libtoolize}
