@@ -177,13 +177,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc COPYING index.html
 %attr(755,root,root) %{_libdir}/libgd.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgd.so.2
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gdlib-config
 %attr(755,root,root) %{_libdir}/libgd.so
 %{_libdir}/libgd.la
-%{_includedir}/*.h
+%{_includedir}/entities.h
+%{_includedir}/gd*.h
 
 %files static
 %defattr(644,root,root,755)
@@ -191,5 +193,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files progs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
-%exclude %{_bindir}/gdlib-config
+%attr(755,root,root) %{_bindir}/annotate
+%attr(755,root,root) %{_bindir}/bdftogd
+%attr(755,root,root) %{_bindir}/gd2copypal
+%attr(755,root,root) %{_bindir}/gd2togif
+%attr(755,root,root) %{_bindir}/gd2topng
+%attr(755,root,root) %{_bindir}/gdcmpgif
+%attr(755,root,root) %{_bindir}/gdparttopng
+%attr(755,root,root) %{_bindir}/gdtopng
+%attr(755,root,root) %{_bindir}/giftogd2
+%attr(755,root,root) %{_bindir}/pngtogd
+%attr(755,root,root) %{_bindir}/pngtogd2
+%attr(755,root,root) %{_bindir}/webpng
