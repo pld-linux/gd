@@ -9,21 +9,26 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.35
-Release:	9
+Release:	10
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.libgd.org/releases/%{name}-%{version}.tar.bz2
 # Source0-md5:	6c6c3dbb7bf079e0bb5fbbfd3bb8a71c
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-rotate_from_php.patch
+Patch2:		%{name}-2.0.33-BoxBound.patch
+Patch3:		%{name}-2.0.35-AALineThick.patch
+Patch4:		%{name}-2.0.35-overflow.patch
+Patch5:		%{name}-2.0.35-security3.patch
+Patch6:		%{name}-loop.patch
 URL:		http://www.libgd.org/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
 BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	gettext-devel
-BuildRequires:	libpng-devel >= 2:1.4.0
 BuildRequires:	libjpeg-devel
+BuildRequires:	libpng-devel >= 2:1.4.0
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
 %{?with_xpm:BuildRequires:	xorg-lib-libXpm-devel}
@@ -143,6 +148,11 @@ para uso pelos programas que usam a libgd.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 # hack to avoid inclusion of -s in --ldflags
 %{__perl} -pi -e 's,\@LDFLAGS\@,,g' config/gdlib-config.in
