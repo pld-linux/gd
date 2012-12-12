@@ -9,7 +9,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.0.35
-Release:	10
+Release:	11
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.libgd.org/releases/%{name}-%{version}.tar.bz2
@@ -21,6 +21,7 @@ Patch3:		%{name}-2.0.35-AALineThick.patch
 Patch4:		%{name}-2.0.35-overflow.patch
 Patch5:		%{name}-2.0.35-security3.patch
 Patch6:		%{name}-loop.patch
+Patch7:		format-security.patch
 URL:		http://www.libgd.org/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -153,6 +154,7 @@ para uso pelos programas que usam a libgd.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 # hack to avoid inclusion of -s in --ldflags
 %{__perl} -pi -e 's,\@LDFLAGS\@,,g' config/gdlib-config.in
