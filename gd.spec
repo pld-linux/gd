@@ -1,19 +1,21 @@
+# TODO
+# - perhaps should rename .spec to libgd and put programs to "gd" and libs to "libgd" package to match upstream project name?
 #
 # Conditional build:
 %bcond_without	fontconfig	# without fontconfig support
 %bcond_without	xpm		# without XPM support (requires X11 libs)
-#
+
 Summary:	Library for PNG, JPEG creation
 Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.35
-Release:	11
+Version:	2.1.0
+Release:	0.rc1.1
 License:	BSD-like
 Group:		Libraries
-Source0:	http://www.libgd.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	6c6c3dbb7bf079e0bb5fbbfd3bb8a71c
+Source0:	https://bitbucket.org/libgd/gd-libgd/downloads/lib%{name}-%{version}-rc1.tar.xz
+# Source0-md5:	5dcd61ada3dea83e59f9fb972bccae55
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-rotate_from_php.patch
 Patch2:		%{name}-2.0.33-BoxBound.patch
@@ -21,7 +23,6 @@ Patch3:		%{name}-2.0.35-AALineThick.patch
 Patch4:		%{name}-2.0.35-overflow.patch
 Patch5:		%{name}-2.0.35-security3.patch
 Patch6:		%{name}-loop.patch
-Patch7:		format-security.patch
 URL:		http://www.libgd.org/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -32,7 +33,9 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 2:1.4.0
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool >= 1:1.4.3
+BuildRequires:	tar >= 1:1.22
 %{?with_xpm:BuildRequires:	xorg-lib-libXpm-devel}
+BuildRequires:	xz
 BuildRequires:	zlib-devel
 Provides:	gd(gif) = %{version}-%{release}
 # versioned by php version rotate_from_php code comes from
@@ -146,21 +149,22 @@ Este pacote inclui vários utilitários para manipulação de arquivos gd
 para uso pelos programas que usam a libgd.
 
 %prep
-%setup -q
+%setup -q -n lib%{name}-%{version}-rc1
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
+#%patch1 -p1 needs refreshing, is there a point?
+cd src
+#%patch2 -p1 check
+#%patch3 -p1 check
+#%patch4 -p1 check
+#%patch5 -p1 check
+#%patch6 -p1 check if still needed
+cd -
 
 # hack to avoid inclusion of -s in --ldflags
-%{__perl} -pi -e 's,\@LDFLAGS\@,,g' config/gdlib-config.in
+%{__sed} -i~ -e 's,@LDFLAGS@,,g' config/gdlib-config.in
 
 # png_check_sig was replaced by png_sig_cmp in libpng
-%{__sed} -i -e 's/if (!png_check_sig (sig, 8))/if (png_sig_cmp(sig, 0, 8))/g' gd_png.c
+#%{__sed} -i~ -e 's/if (!png_check_sig (sig, 8))/if (png_sig_cmp(sig, 0, 8))/g' src/gd_png.c
 
 %build
 %{__libtoolize}
@@ -187,7 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc COPYING index.html
+%doc COPYING ChangeLog NEWS 
 %attr(755,root,root) %{_libdir}/libgd.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgd.so.2
 
