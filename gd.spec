@@ -8,32 +8,33 @@ Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.0.35
-Release:	11
+Version:	2.1.0
+Release:	1
 License:	BSD-like
 Group:		Libraries
-Source0:	http://www.libgd.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	6c6c3dbb7bf079e0bb5fbbfd3bb8a71c
+Source0:	https://bitbucket.org/libgd/gd-libgd/downloads/libgd-%{version}.tar.xz
+# Source0-md5:	03588159bf4faab9079849c8d709acc6
 Patch0:		%{name}-fontpath.patch
-Patch1:		%{name}-rotate_from_php.patch
-Patch2:		%{name}-2.0.33-BoxBound.patch
-Patch3:		%{name}-2.0.35-AALineThick.patch
-Patch4:		%{name}-2.0.35-overflow.patch
-Patch5:		%{name}-2.0.35-security3.patch
-Patch6:		%{name}-loop.patch
-Patch7:		format-security.patch
+Patch1:		%{name}-2.0.33-BoxBound.patch
+Patch2:		%{name}-loop.patch
 URL:		http://www.libgd.org/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
-BuildRequires:	freetype-devel >= 2.0
+BuildRequires:	freetype-devel >= 2.1.10
 BuildRequires:	gettext-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 2:1.4.0
-BuildRequires:	libtiff-devel
-BuildRequires:	libtool >= 1:1.4.3
+BuildRequires:	libtiff-devel >= 4
+BuildRequires:	libtool >= 2:2
+BuildRequires:	libvpx-devel
+BuildRequires:	pkgconfig
+BuildRequires:	sed >= 4
+BuildRequires:	tar >= 1:1.22
 %{?with_xpm:BuildRequires:	xorg-lib-libXpm-devel}
+BuildRequires:	xz
 BuildRequires:	zlib-devel
+Requires:	freetype >= 2.1.10
 Provides:	gd(gif) = %{version}-%{release}
 # versioned by php version rotate_from_php code comes from
 Provides:	gd(imagerotate) = 5.2.0
@@ -80,9 +81,11 @@ Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para desenvolver progr
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	fontconfig-devel
-Requires:	freetype-devel >= 2.0
+Requires:	freetype-devel >= 2.1.10
 Requires:	libjpeg-devel
 Requires:	libpng-devel
+Requires:	libtiff-devel >= 4
+Requires:	libvpx-devel
 %{?with_xpm:Requires:	xorg-lib-libXpm-devel}
 Requires:	zlib-devel
 Provides:	gd-devel(gif) = %{version}-%{release}
@@ -146,21 +149,15 @@ Este pacote inclui vários utilitários para manipulação de arquivos gd
 para uso pelos programas que usam a libgd.
 
 %prep
-%setup -q
+%setup -q -n libgd-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
 
 # hack to avoid inclusion of -s in --ldflags
-%{__perl} -pi -e 's,\@LDFLAGS\@,,g' config/gdlib-config.in
-
-# png_check_sig was replaced by png_sig_cmp in libpng
-%{__sed} -i -e 's/if (!png_check_sig (sig, 8))/if (png_sig_cmp(sig, 0, 8))/g' gd_png.c
+%{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
+# disable error caused by subdir-objects warning in automake 1.14
+%{__sed} -i -e '/AM_INIT_AUTOMAKE/s/-Werror//' configure.ac
 
 %build
 %{__libtoolize}
@@ -187,9 +184,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc COPYING index.html
+%doc COPYING ChangeLog NEWS
 %attr(755,root,root) %{_libdir}/libgd.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgd.so.2
+%attr(755,root,root) %ghost %{_libdir}/libgd.so.3
 
 %files devel
 %defattr(644,root,root,755)
@@ -198,6 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgd.la
 %{_includedir}/entities.h
 %{_includedir}/gd*.h
+%{_pkgconfigdir}/gdlib.pc
 
 %files static
 %defattr(644,root,root,755)
