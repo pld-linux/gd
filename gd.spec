@@ -2,6 +2,7 @@
 # Conditional build:
 %bcond_without	fontconfig	# without fontconfig support
 %bcond_without	xpm		# without XPM support (requires X11 libs)
+%bcond_without	tests
 #
 Summary:	Library for PNG, JPEG creation
 Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
@@ -169,6 +170,8 @@ para uso pelos programas que usam a libgd.
 	%{!?with_fontconfig:--without-fontconfig} \
 	%{!?with_xpm:--without-xpm}
 %{__make}
+
+%{?with_tests:%{__make} check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
