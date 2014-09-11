@@ -22,7 +22,7 @@ URL:		http://www.libgd.org/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
-BuildRequires:	freetype-devel >= 2.1.10
+BuildRequires:	freetype-devel >= 1:2.1.10
 BuildRequires:	gettext-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 2:1.4.0
@@ -35,7 +35,7 @@ BuildRequires:	tar >= 1:1.22
 %{?with_xpm:BuildRequires:	xorg-lib-libXpm-devel}
 BuildRequires:	xz
 BuildRequires:	zlib-devel
-Requires:	freetype >= 2.1.10
+Requires:	freetype >= 1:2.1.10
 Provides:	gd(gif) = %{version}-%{release}
 # versioned by php version rotate_from_php code comes from
 Provides:	gd(imagerotate) = 5.2.0
@@ -82,7 +82,7 @@ Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para desenvolver progr
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	fontconfig-devel
-Requires:	freetype-devel >= 2.1.10
+Requires:	freetype-devel >= 1:2.1.10
 Requires:	libjpeg-devel
 Requires:	libpng-devel
 Requires:	libtiff-devel >= 4
