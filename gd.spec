@@ -23,7 +23,7 @@ BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
 BuildRequires:	freetype-devel >= 1:2.1.10
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 2:1.4.0
 BuildRequires:	libtiff-devel >= 4
