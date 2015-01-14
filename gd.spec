@@ -1,20 +1,20 @@
 #
 # Conditional build:
-%bcond_without	fontconfig	# without fontconfig support
-%bcond_without	xpm		# without XPM support (requires X11 libs)
-%bcond_without	tests
+%bcond_without	fontconfig	# fontconfig support
+%bcond_without	xpm		# XPM support (requires X11 libs)
+%bcond_without	tests		# "make check"
 #
 Summary:	Library for PNG, JPEG creation
 Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.1.0
-Release:	3
+Version:	2.1.1
+Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	https://bitbucket.org/libgd/gd-libgd/downloads/libgd-%{version}.tar.xz
-# Source0-md5:	03588159bf4faab9079849c8d709acc6
+# Source0-md5:	9076f3abd1f9815d106da36467ea15bc
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-2.0.33-BoxBound.patch
 Patch2:		%{name}-loop.patch
