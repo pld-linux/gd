@@ -18,6 +18,7 @@ Source0:	https://bitbucket.org/libgd/gd-libgd/downloads/libgd-%{version}.tar.xz
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-2.0.33-BoxBound.patch
 Patch2:		%{name}-loop.patch
+Patch3:		libvpx2.patch
 URL:		http://www.libgd.org/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -154,6 +155,7 @@ para uso pelos programas que usam a libgd.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # hack to avoid inclusion of -s in --ldflags
 %{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
