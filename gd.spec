@@ -13,6 +13,9 @@ Version:	2.1.1
 Release:	3
 License:	BSD-like
 Group:		Libraries
+#Source0Download: https://github.com/libgd/libgd/releases
+# future versions:
+#Source0:	https://github.com/libgd/libgd/archive/%{name}-%{version}.tar.gz
 Source0:	https://bitbucket.org/libgd/gd-libgd/downloads/libgd-%{version}.tar.xz
 # Source0-md5:	9076f3abd1f9815d106da36467ea15bc
 Patch0:		%{name}-fontpath.patch
