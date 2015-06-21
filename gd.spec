@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	fontconfig	# fontconfig support
+%bcond_without	libimagequant	# LIQ quantization method support
 %bcond_without	xpm		# XPM support (requires X11 libs)
 %bcond_without	tests		# "make check"
 #
@@ -10,7 +11,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.1.1
-Release:	3
+Release:	4
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
@@ -22,12 +23,16 @@ Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-2.0.33-BoxBound.patch
 Patch2:		%{name}-loop.patch
 Patch3:		libvpx2.patch
+Patch4:		%{name}-missing.patch
+Patch5:		%{name}-version.patch
+Patch6:		%{name}-liq.patch
 URL:		http://www.libgd.org/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
 BuildRequires:	freetype-devel >= 1:2.1.10
 BuildRequires:	gettext-tools
+%{?with_libimagequant:BuildRequires:	libimagequant-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 2:1.4.0
 BuildRequires:	libtiff-devel >= 4
@@ -87,6 +92,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.1.10
+%{?with_libimagequant:Requires:	libimagequant-devel}
 Requires:	libjpeg-devel
 Requires:	libpng-devel
 Requires:	libtiff-devel >= 4
@@ -159,6 +165,9 @@ para uso pelos programas que usam a libgd.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 # hack to avoid inclusion of -s in --ldflags
 %{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
@@ -173,6 +182,7 @@ para uso pelos programas que usam a libgd.
 %{__autoconf}
 %configure \
 	%{!?with_fontconfig:--without-fontconfig} \
+	%{!?with_libimagequant:--without-libimagequant} \
 	%{!?with_xpm:--without-xpm}
 %{__make}
 

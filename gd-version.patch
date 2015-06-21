@@ -1,0 +1,11 @@
+--- libgd-2.1.1/configure.ac.orig	2015-06-19 20:38:02.458383261 +0200
++++ libgd-2.1.1/configure.ac	2015-06-19 20:48:54.771689220 +0200
+@@ -27,6 +27,8 @@
+ GDLIB_REVISION=gd_REVISION
+ GDLIB_EXTRA=gd_EXTRA
+ GDLIB_VERSION=gd_PKG_VERSION
++AC_SUBST(GDLIB_MAJOR)
++AC_SUBST(GDLIB_MINOR)
+ 
+ # Dynamic library version information
+ # See http://www.gnu.org/software/libtool/manual/libtool.html#Updating-version-info

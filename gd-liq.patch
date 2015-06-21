@@ -1,0 +1,23 @@
+--- libgd-2.1.1/configure.ac.orig	2015-06-19 20:50:19.125019013 +0200
++++ libgd-2.1.1/configure.ac	2015-06-21 16:12:24.498467052 +0200
+@@ -154,6 +154,20 @@
+ fi
+ AM_CONDITIONAL([HAVE_LIBPNG], test "$with_png" = yes)
+ 
++dnl LIQ
++AC_ARG_WITH(libimagequant,dnl
++[  --with-libimagequant=DIR  where to find the libimagequant library],
++  [if test -d "$withval"; then
++     LDFLAGS="$LDFLAGS -L$withval/lib"
++     CFLAGS="$CFLAGS -I$withval/include"
++   fi])
++
++if test "$with_libimagequant" != no; then
++   AC_CHECK_HEADER([libimagequant.h])
++   AC_CHECK_LIB(imagequant, liq_attr_create,
++     [LIBS="-limagequant $LIBS"])
++fi
++
+ dnl FreeType configure tests snarfed from libwmf ..
+ AC_ARG_WITH(freetype,dnl
+ [  --with-freetype=DIR     where to find the freetype 2.x library]])
