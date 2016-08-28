@@ -7,7 +7,7 @@
 %bcond_without	tests		# "make check"
 #
 %ifarch pentium3 pentium4
-%define	with_ssemath	1
+%define	with_sse	1
 %endif
 Summary:	Library for PNG, JPEG creation
 Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
@@ -191,7 +191,7 @@ CFLAGS="%{rpmcflags} -msse -mfpmath=sse"
 # https://bitbucket.org/libgd/gd-libgd/issue/72/gdimagestringft_bbox-test-fails-on-old (what is the exact reason???)
 XFAIL_TESTS=gdimagestringft/gdimagestringft_bbox
 %ifarch %{ix86}
-%if %{without ssemath}
+%if %{without sse}
 # 387 arithmetic is inexact, https://github.com/libgd/libgd/issues/242
 XFAIL_TESTS="$XFAIL_TESTS gdimagecopyresampled/bug00201 gdimagerotate/bug00067"
 %endif
