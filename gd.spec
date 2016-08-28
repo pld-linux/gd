@@ -1,32 +1,31 @@
 #
 # Conditional build:
 %bcond_without	fontconfig	# fontconfig support
-%bcond_without	libimagequant	# LIQ quantization method support
+%bcond_with	libimagequant	# LIQ quantization method support (breaks transparency in TrueColor->palette conversion)
+%bcond_with	sse		# SSE math on ix86
 %bcond_without	xpm		# XPM support (requires X11 libs)
 %bcond_without	tests		# "make check"
 #
+%ifarch pentium3 pentium4
+%define	with_ssemath	1
+%endif
 Summary:	Library for PNG, JPEG creation
 Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.1.1
-Release:	5
+Version:	2.2.3
+Release:	1
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
-# future versions:
-#Source0:	https://github.com/libgd/libgd/archive/%{name}-%{version}.tar.gz
-Source0:	https://bitbucket.org/libgd/gd-libgd/downloads/libgd-%{version}.tar.xz
-# Source0-md5:	9076f3abd1f9815d106da36467ea15bc
+Source0:	https://github.com/libgd/libgd/releases/download/%{name}-%{version}/lib%{name}-%{version}.tar.xz
+# Source0-md5:	14e4134c129b4c166c3a0549a32ef340
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-2.0.33-BoxBound.patch
 Patch2:		%{name}-loop.patch
-Patch3:		libvpx2.patch
-Patch4:		%{name}-missing.patch
-Patch5:		%{name}-version.patch
-Patch6:		%{name}-liq.patch
-URL:		http://www.libgd.org/
+Patch3:		%{name}-liq.patch
+URL:		https://libgd.github.io/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
@@ -37,7 +36,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 2:1.4.0
 BuildRequires:	libtiff-devel >= 4
 BuildRequires:	libtool >= 2:2
-BuildRequires:	libvpx-devel
+BuildRequires:	libwebp-devel
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4
 BuildRequires:	tar >= 1:1.22
@@ -96,7 +95,7 @@ Requires:	freetype-devel >= 1:2.1.10
 Requires:	libjpeg-devel
 Requires:	libpng-devel
 Requires:	libtiff-devel >= 4
-Requires:	libvpx-devel
+Requires:	libwebp-devel
 %{?with_xpm:Requires:	xorg-lib-libXpm-devel}
 Requires:	zlib-devel
 Provides:	gd-devel(gif) = %{version}-%{release}
@@ -165,9 +164,6 @@ para uso pelos programas que usam a libgd.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 # hack to avoid inclusion of -s in --ldflags
 %{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
@@ -180,15 +176,33 @@ para uso pelos programas que usam a libgd.
 %{__automake}
 %{__autoheader}
 %{__autoconf}
+%ifarch %{ix86}
+%if %{with sse}
+CFLAGS="%{rpmcflags} -msse -mfpmath=sse"
+%endif
+%endif
 %configure \
 	%{!?with_fontconfig:--without-fontconfig} \
-	%{!?with_libimagequant:--without-libimagequant} \
+	%{!?with_libimagequant:--without-liq} \
 	%{!?with_xpm:--without-xpm}
 %{__make}
 
 %if %{with tests}
-# https://bitbucket.org/libgd/gd-libgd/issue/72/gdimagestringft_bbox-test-fails-on-old
-export XFAIL_TESTS=gdimagestringft/gdimagestringft_bbox
+# https://bitbucket.org/libgd/gd-libgd/issue/72/gdimagestringft_bbox-test-fails-on-old (what is the exact reason???)
+XFAIL_TESTS=gdimagestringft/gdimagestringft_bbox
+%ifarch %{ix86}
+%if %{without ssemath}
+# 387 arithmetic is inexact, https://github.com/libgd/libgd/issues/242
+XFAIL_TESTS="$XFAIL_TESTS gdimagecopyresampled/bug00201 gdimagerotate/bug00067"
+%endif
+%endif
+%if %{with libimagequant}
+# liq quantization method doesn't support alpha channel in a way expected by gd
+XFAIL_TESTS="$XFAIL_TESTS gif/bug00006"
+%endif
+# freetype TTF rendering difference?
+XFAIL_TESTS="$XFAIL_TESTS freetype/bug00132"
+export XFAIL_TESTS
 %{__make} check
 %endif
 
