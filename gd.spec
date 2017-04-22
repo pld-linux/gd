@@ -14,13 +14,13 @@ Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.2.3
+Version:	2.2.4
 Release:	1
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
 Source0:	https://github.com/libgd/libgd/releases/download/%{name}-%{version}/lib%{name}-%{version}.tar.xz
-# Source0-md5:	14e4134c129b4c166c3a0549a32ef340
+# Source0-md5:	a244855a323a3ea1975d708eb1e12b7a
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-2.0.33-BoxBound.patch
 Patch2:		%{name}-loop.patch
@@ -191,14 +191,14 @@ CFLAGS="%{rpmcflags} -msse -mfpmath=sse"
 # https://bitbucket.org/libgd/gd-libgd/issue/72/gdimagestringft_bbox-test-fails-on-old (what is the exact reason???)
 XFAIL_TESTS=gdimagestringft/gdimagestringft_bbox
 %ifarch %{ix86}
+# https://github.com/libgd/libgd/issues/359
+XFAIL_TESTS="$XFAIL_TESTS gdimagegrayscale/basic"
+%endif
+%ifarch %{ix86}
 %if %{without sse}
 # 387 arithmetic is inexact, https://github.com/libgd/libgd/issues/242
 XFAIL_TESTS="$XFAIL_TESTS gdimagecopyresampled/bug00201 gdimagerotate/bug00067"
 %endif
-%endif
-%if %{with libimagequant}
-# liq quantization method doesn't support alpha channel in a way expected by gd
-XFAIL_TESTS="$XFAIL_TESTS gif/bug00006"
 %endif
 # freetype TTF rendering difference?
 XFAIL_TESTS="$XFAIL_TESTS freetype/bug00132"
@@ -220,7 +220,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc COPYING ChangeLog NEWS
+%doc CONTRIBUTORS COPYING README.md
 %attr(755,root,root) %{_libdir}/libgd.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgd.so.3
 
