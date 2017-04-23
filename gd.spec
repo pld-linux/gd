@@ -15,7 +15,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.2.4
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
@@ -25,6 +25,7 @@ Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-2.0.33-BoxBound.patch
 Patch2:		%{name}-loop.patch
 Patch3:		%{name}-liq.patch
+Patch4:		%{name}-upstream.patch
 URL:		https://libgd.github.io/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -164,6 +165,7 @@ para uso pelos programas que usam a libgd.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 # hack to avoid inclusion of -s in --ldflags
 %{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
