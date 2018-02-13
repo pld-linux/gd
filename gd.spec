@@ -22,7 +22,6 @@ Group:		Libraries
 Source0:	https://github.com/libgd/libgd/releases/download/%{name}-%{version}/lib%{name}-%{version}.tar.xz
 # Source0-md5:	8d8d6a6189513ecee6e893b1fb109bf8
 Patch0:		%{name}-fontpath.patch
-Patch1:		%{name}-2.0.33-BoxBound.patch
 Patch2:		%{name}-loop.patch
 Patch3:		%{name}-liq.patch
 URL:		https://libgd.github.io/
@@ -161,7 +160,6 @@ para uso pelos programas que usam a libgd.
 %prep
 %setup -q -n libgd-%{version}
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
@@ -188,20 +186,14 @@ CFLAGS="%{rpmcflags} -msse -mfpmath=sse"
 %{__make}
 
 %if %{with tests}
-# https://bitbucket.org/libgd/gd-libgd/issue/72/gdimagestringft_bbox-test-fails-on-old (what is the exact reason???)
-XFAIL_TESTS=gdimagestringft/gdimagestringft_bbox
 %ifarch %{ix86}
 # https://github.com/libgd/libgd/issues/359
 XFAIL_TESTS="$XFAIL_TESTS gdimagegrayscale/basic"
-%endif
-%ifarch %{ix86}
 %if %{without sse}
 # 387 arithmetic is inexact, https://github.com/libgd/libgd/issues/242
 XFAIL_TESTS="$XFAIL_TESTS gdimagecopyresampled/bug00201 gdimagerotate/bug00067"
 %endif
 %endif
-# freetype TTF rendering difference?
-XFAIL_TESTS="$XFAIL_TESTS freetype/bug00132"
 export XFAIL_TESTS
 %{__make} check
 %endif
