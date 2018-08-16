@@ -15,7 +15,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.2.5
-Release:	2
+Release:	3
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
