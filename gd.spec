@@ -15,7 +15,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.2.5
-Release:	4
+Release:	5
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
@@ -28,6 +28,10 @@ Patch4:		0004-Fix-OOB-read-due-to-crafted-GD-GD2-images.patch
 Patch5:		0005-Fix-tiff_invalid_read-check.patch
 Patch6:		bmp-check-return-value-in-gdImageBmpPtr.patch
 Patch7:		Fix-420-Potential-infinite-loop-in-gdImageCreateFrom.patch
+Patch8:		gd-2.2.5-heap-based-buffer-overflow.patch
+Patch9:		gd-2.2.5-null-pointer.patch
+Patch10:	gd-2.2.5-potential-double-free.patch
+Patch11:	gd-2.2.5-upstream.patch
 URL:		https://libgd.github.io/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -170,6 +174,9 @@ para uso pelos programas que usam a libgd.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 # hack to avoid inclusion of -s in --ldflags
 %{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
