@@ -27,11 +27,10 @@ Patch3:		%{name}-liq.patch
 Patch4:		0004-Fix-OOB-read-due-to-crafted-GD-GD2-images.patch
 Patch5:		0005-Fix-tiff_invalid_read-check.patch
 Patch6:		bmp-check-return-value-in-gdImageBmpPtr.patch
-Patch7:		Fix-420-Potential-infinite-loop-in-gdImageCreateFrom.patch
-Patch8:		gd-2.2.5-heap-based-buffer-overflow.patch
-Patch9:		gd-2.2.5-null-pointer.patch
-Patch10:	gd-2.2.5-potential-double-free.patch
-Patch11:	gd-2.2.5-upstream.patch
+Patch7:		gd-2.2.5-heap-based-buffer-overflow.patch
+Patch8:		gd-2.2.5-null-pointer.patch
+Patch9:		gd-2.2.5-potential-double-free.patch
+Patch10:	gd-2.2.5-upstream.patch
 URL:		https://libgd.github.io/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
