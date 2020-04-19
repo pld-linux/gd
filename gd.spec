@@ -2,6 +2,7 @@
 # Conditional build:
 %bcond_without	fontconfig	# fontconfig support
 %bcond_with	libimagequant	# LIQ quantization method support (breaks transparency in TrueColor->palette conversion)
+%bcond_without	raqm		# RAQM complex text layout support
 %bcond_with	sse		# SSE math on ix86
 %bcond_without	xpm		# XPM support (requires X11 libs)
 %bcond_without	tests		# "make check"
@@ -14,23 +15,16 @@ Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.2.5
-Release:	5
+Version:	2.3.0
+Release:	1
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
 Source0:	https://github.com/libgd/libgd/releases/download/%{name}-%{version}/lib%{name}-%{version}.tar.xz
-# Source0-md5:	8d8d6a6189513ecee6e893b1fb109bf8
+# Source0-md5:	44e052abf0914bf1b93ceb1af564766f
 Patch0:		%{name}-fontpath.patch
+Patch1:		%{name}-missing.patch
 Patch2:		%{name}-loop.patch
-Patch3:		%{name}-liq.patch
-Patch4:		0004-Fix-OOB-read-due-to-crafted-GD-GD2-images.patch
-Patch5:		0005-Fix-tiff_invalid_read-check.patch
-Patch6:		bmp-check-return-value-in-gdImageBmpPtr.patch
-Patch7:		gd-2.2.5-heap-based-buffer-overflow.patch
-Patch8:		gd-2.2.5-null-pointer.patch
-Patch9:		gd-2.2.5-potential-double-free.patch
-Patch10:	gd-2.2.5-upstream.patch
 URL:		https://libgd.github.io/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -40,6 +34,7 @@ BuildRequires:	gettext-tools
 %{?with_libimagequant:BuildRequires:	libimagequant-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 2:1.4.0
+%{?with_raqm:BuildRequires:	libraqm-devel}
 BuildRequires:	libtiff-devel >= 4
 BuildRequires:	libtool >= 2:2
 BuildRequires:	libwebp-devel
@@ -100,6 +95,7 @@ Requires:	freetype-devel >= 1:2.1.10
 %{?with_libimagequant:Requires:	libimagequant-devel}
 Requires:	libjpeg-devel
 Requires:	libpng-devel
+%{?with_raqm:Requires:	libraqm-devel}
 Requires:	libtiff-devel >= 4
 Requires:	libwebp-devel
 %{?with_xpm:Requires:	xorg-lib-libXpm-devel}
@@ -167,24 +163,18 @@ para uso pelos programas que usam a libgd.
 %prep
 %setup -q -n libgd-%{version}
 %patch0 -p1
+%patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
 
+chmod 755 config/getlib.sh
 # hack to avoid inclusion of -s in --ldflags
-%{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
+#%{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
 # disable error caused by subdir-objects warning in automake 1.14
-%{__sed} -i -e '/AM_INIT_AUTOMAKE/s/-Werror//' configure.ac
+#%{__sed} -i -e '/AM_INIT_AUTOMAKE/s/-Werror//' configure.ac
 
 %build
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4
 %{__automake}
 %{__autoheader}
 %{__autoconf}
@@ -196,6 +186,7 @@ CFLAGS="%{rpmcflags} -msse -mfpmath=sse"
 %configure \
 	%{!?with_fontconfig:--without-fontconfig} \
 	%{!?with_libimagequant:--without-liq} \
+	%{!?with_raqm:--without-raqm} \
 	%{!?with_xpm:--without-xpm}
 %{__make}
 
@@ -205,8 +196,12 @@ CFLAGS="%{rpmcflags} -msse -mfpmath=sse"
 XFAIL_TESTS="$XFAIL_TESTS gdimagegrayscale/basic"
 %if %{without sse}
 # 387 arithmetic is inexact, https://github.com/libgd/libgd/issues/242
-XFAIL_TESTS="$XFAIL_TESTS gdimagecopyresampled/bug00201 gdimagerotate/bug00067"
+XFAIL_TESTS="$XFAIL_TESTS gdimagecopyresampled/bug00201"
 %endif
+%endif
+%if %{with raqm}
+# https://github.com/libgd/libgd/issues/613
+XFAIL_TESTS="$XFAIL_TESTS gdimagestringft/gdimagestringft_bbox"
 %endif
 export XFAIL_TESTS
 %{__make} check
@@ -232,7 +227,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gdlib-config
 %attr(755,root,root) %{_libdir}/libgd.so
 %{_libdir}/libgd.la
 %{_includedir}/entities.h
