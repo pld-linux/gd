@@ -1,6 +1,8 @@
 #
 # Conditional build:
+%bcond_without	avif		# AVIF support via libavif
 %bcond_without	fontconfig	# fontconfig support
+%bcond_without	heif		# HEIF support via libheif
 %bcond_with	libimagequant	# LIQ quantization method support (breaks transparency in TrueColor->palette conversion)
 %bcond_without	raqm		# RAQM complex text layout support
 %bcond_with	sse		# SSE math on ix86
@@ -15,22 +17,23 @@ Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.3.0
+Version:	2.3.2
 Release:	1
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
 Source0:	https://github.com/libgd/libgd/releases/download/%{name}-%{version}/lib%{name}-%{version}.tar.xz
-# Source0-md5:	44e052abf0914bf1b93ceb1af564766f
+# Source0-md5:	0ee844caca06bb02bf4b4dabdfab4fb1
 Patch0:		%{name}-fontpath.patch
-Patch1:		%{name}-missing.patch
-Patch2:		%{name}-loop.patch
+Patch1:		%{name}-loop.patch
 URL:		https://libgd.github.io/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 %{?with_fontconfig:BuildRequires:	fontconfig-devel}
 BuildRequires:	freetype-devel >= 1:2.1.10
 BuildRequires:	gettext-tools
+%{?with_avif:BuildRequires:	libavif-devel >= 0.8.2}
+%{?with_heif:BuildRequires:	libheif-devel >= 1.7.0}
 %{?with_libimagequant:BuildRequires:	libimagequant-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 2:1.4.0
@@ -45,6 +48,8 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRequires:	zlib-devel
 Requires:	freetype >= 1:2.1.10
+%{?with_avif:Requires:	libavif >= 0.8.2}
+%{?with_heif:Requires:	libheif >= 1.7.0}
 Provides:	gd(gif) = %{version}-%{release}
 # versioned by php version rotate_from_php code comes from
 Provides:	gd(imagerotate) = 5.2.0
@@ -92,6 +97,8 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.1.10
+%{?with_avif:Requires:	libavif-devel >= 0.8.2}
+%{?with_heif:Requires:	libheif-devel >= 1.7.0}
 %{?with_libimagequant:Requires:	libimagequant-devel}
 Requires:	libjpeg-devel
 Requires:	libpng-devel
@@ -164,13 +171,6 @@ para uso pelos programas que usam a libgd.
 %setup -q -n libgd-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-
-chmod 755 config/getlib.sh
-# hack to avoid inclusion of -s in --ldflags
-#%{__sed} -i -e 's,@LDFLAGS@,,g' config/gdlib-config.in
-# disable error caused by subdir-objects warning in automake 1.14
-#%{__sed} -i -e '/AM_INIT_AUTOMAKE/s/-Werror//' configure.ac
 
 %build
 %{__libtoolize}
@@ -184,7 +184,9 @@ CFLAGS="%{rpmcflags} -msse -mfpmath=sse"
 %endif
 %endif
 %configure \
+	%{!?with_avif:--without-avif} \
 	%{!?with_fontconfig:--without-fontconfig} \
+	%{!?with_heif:--without-heif} \
 	%{!?with_libimagequant:--without-liq} \
 	%{!?with_raqm:--without-raqm} \
 	%{!?with_xpm:--without-xpm}
@@ -202,6 +204,10 @@ XFAIL_TESTS="$XFAIL_TESTS gdimagecopyresampled/bug00201"
 %if %{with raqm}
 # https://github.com/libgd/libgd/issues/613
 XFAIL_TESTS="$XFAIL_TESTS gdimagestringft/gdimagestringft_bbox"
+%endif
+%if %{with heif}
+# input file (label.heic) is missing
+XFAIL_TESTS="$XFAIL_TESTS heif/heif_read"
 %endif
 export XFAIL_TESTS
 %{__make} check
