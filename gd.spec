@@ -17,13 +17,13 @@ Summary(es.UTF-8):	Biblioteca para manipulación de imágenes
 Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
-Version:	2.3.2
+Version:	2.3.3
 Release:	1
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
 Source0:	https://github.com/libgd/libgd/releases/download/%{name}-%{version}/lib%{name}-%{version}.tar.xz
-# Source0-md5:	0ee844caca06bb02bf4b4dabdfab4fb1
+# Source0-md5:	7a58b54d375eda236414201252a0ee3c
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-loop.patch
 URL:		https://libgd.github.io/
@@ -205,10 +205,6 @@ XFAIL_TESTS="$XFAIL_TESTS gdimagecopyresampled/bug00201"
 # https://github.com/libgd/libgd/issues/613
 XFAIL_TESTS="$XFAIL_TESTS gdimagestringft/gdimagestringft_bbox"
 %endif
-%if %{with heif}
-# input file (label.heic) is missing
-XFAIL_TESTS="$XFAIL_TESTS heif/heif_read"
-%endif
 export XFAIL_TESTS
 %{__make} check
 %endif
@@ -235,7 +231,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgd.so
 %{_libdir}/libgd.la
-%{_includedir}/entities.h
 %{_includedir}/gd*.h
 %{_pkgconfigdir}/gdlib.pc
 
