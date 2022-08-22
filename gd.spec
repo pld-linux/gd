@@ -18,7 +18,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.3.3
-Release:	3
+Release:	4
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
@@ -41,7 +41,7 @@ BuildRequires:	libpng-devel >= 2:1.4.0
 %{?with_raqm:BuildRequires:	libraqm-devel}
 BuildRequires:	libtiff-devel >= 4
 BuildRequires:	libtool >= 2:2
-BuildRequires:	libwebp-devel
+BuildRequires:	libwebp-devel >= 0.2.0
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4
 BuildRequires:	tar >= 1:1.22
@@ -105,7 +105,7 @@ Requires:	libjpeg-devel
 Requires:	libpng-devel
 %{?with_raqm:Requires:	libraqm-devel}
 Requires:	libtiff-devel >= 4
-Requires:	libwebp-devel
+Requires:	libwebp-devel >= 0.2.0
 %{?with_xpm:Requires:	xorg-lib-libXpm-devel}
 Requires:	zlib-devel
 Provides:	gd-devel(gif) = %{version}-%{release}
@@ -217,6 +217,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libgd.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -232,7 +235,6 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgd.so
-%{_libdir}/libgd.la
 %{_includedir}/gd*.h
 %{_pkgconfigdir}/gdlib.pc
 
