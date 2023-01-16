@@ -18,7 +18,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.3.3
-Release:	4
+Release:	5
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
@@ -186,6 +186,7 @@ CFLAGS="%{rpmcflags} -msse -mfpmath=sse"
 %endif
 %endif
 %configure \
+	--enable-gd-formats \
 	%{!?with_avif:--without-avif} \
 	%{!?with_fontconfig:--without-fontconfig} \
 	%{!?with_heif:--without-heif} \
