@@ -170,9 +170,9 @@ para uso pelos programas que usam a libgd.
 
 %prep
 %setup -q -n libgd-%{version}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
 
 %build
 %{__libtoolize}
