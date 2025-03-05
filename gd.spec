@@ -27,6 +27,8 @@ Source0:	https://github.com/libgd/libgd/releases/download/%{name}-%{version}/lib
 Patch0:		%{name}-fontpath.patch
 Patch1:		%{name}-loop.patch
 Patch2:		api-breakage.patch
+Patch3:		%{name}-avif.patch
+Patch4:		%{name}-heif.patch
 URL:		https://libgd.github.io/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -173,6 +175,8 @@ para uso pelos programas que usam a libgd.
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
+%patch -P4 -p1
 
 %build
 %{__libtoolize}

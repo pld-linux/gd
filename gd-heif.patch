@@ -1,0 +1,200 @@
+From f1a53c082173567b8ad07eaba8fc7ba66457a730 Mon Sep 17 00:00:00 2001
+From: Pierre Joye <pierre.php@gmail.com>
+Date: Sat, 22 Jan 2022 17:29:04 +0700
+Subject: [PATCH] #788 fix bug in HEIF usage, stride is require (#801)
+
+fix bug #788 in HEIF usage, stride is require
+---
+ CMakeLists.txt            |   4 ++--
+ src/gd_heif.c             |  17 ++++++++++-----
+ tests/heif/CMakeLists.txt |   1 +
+ tests/heif/bug788.c       |  43 ++++++++++++++++++++++++++++++++++++++
+ tests/heif/bug788.png     | Bin 0 -> 124720 bytes
+ 5 files changed, 58 insertions(+), 7 deletions(-)
+ create mode 100644 tests/heif/bug788.c
+ create mode 100644 tests/heif/bug788.png
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6b3e5b3bd..979d1ccf8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ CMAKE_MINIMUM_REQUIRED(VERSION 3.7 FATAL_ERROR)
+-
++project(GD)
+ SET(PACKAGE GD)
+ SET(PACKAGE_NAME GD)
+ 
+-PROJECT(GD)
++
+ 
+ SET(CMAKE_MODULE_PATH "${GD_SOURCE_DIR}/cmake/modules")
+ 
+diff --git a/src/gd_heif.c b/src/gd_heif.c
+index 2c7c3d3cf..adccbabed 100644
+--- a/src/gd_heif.c
++++ b/src/gd_heif.c
+@@ -125,7 +125,8 @@ static gdImagePtr _gdImageCreateFromHeifCtx(gdIOCtx *infile, gd_heif_brand expec
+ 	size_t size = 0, n = GD_HEIF_ALLOC_STEP;
+ 	gdImagePtr im;
+ 	int x, y;
+-	uint8_t *p;
++	uint8_t *p, *row_start;
++	int stride;
+ 
+ 	magic_len = gdGetBuf(magic, GD_HEIF_HEADER, infile);
+ 	if (magic_len != GD_HEIF_HEADER || !_gdHeifCheckBrand(magic, expected_brand)) {
+@@ -207,7 +208,7 @@ static gdImagePtr _gdImageCreateFromHeifCtx(gdIOCtx *infile, gd_heif_brand expec
+ 		heif_context_free(heif_ctx);
+ 		return NULL;
+ 	}
+-	rgba = (uint8_t *)heif_image_get_plane_readonly(heif_im, heif_channel_interleaved, NULL);
++	rgba = (uint8_t *)heif_image_get_plane_readonly(heif_im, heif_channel_interleaved, &stride);
+ 	if (!rgba) {
+ 		gd_error("gd-heif cannot get image plane\n");
+ 		gdFree(filedata);
+@@ -217,7 +218,9 @@ static gdImagePtr _gdImageCreateFromHeifCtx(gdIOCtx *infile, gd_heif_brand expec
+ 		gdImageDestroy(im);
+ 		return NULL;
+ 	}
++	row_start = rgba;
+ 	for (y = 0, p = rgba; y < height; y++) {
++		p = row_start;
+ 		for (x = 0; x < width; x++) {
+ 			uint8_t r = *(p++);
+ 			uint8_t g = *(p++);
+@@ -225,6 +228,7 @@ static gdImagePtr _gdImageCreateFromHeifCtx(gdIOCtx *infile, gd_heif_brand expec
+ 			uint8_t a = gdAlphaMax - (*(p++) >> 1);
+ 			im->tpixels[y][x] = gdTrueColorAlpha(r, g, b, a);
+ 		}
++		row_start += stride;
+ 	}
+ 	gdFree(filedata);
+ 	heif_image_release(heif_im);
+@@ -273,7 +277,8 @@ static int _gdImageHeifCtx(gdImagePtr im, gdIOCtx *outfile, int quality, gdHeifC
+ 	uint8_t *rgba;
+ 	int x, y;
+ 	uint8_t *p;
+-
++	uint8_t *row_start;
++	int stride;
+ 	if (im == NULL) {
+ 		return GD_FALSE;
+ 	}
+@@ -349,7 +354,7 @@ static int _gdImageHeifCtx(gdImagePtr im, gdIOCtx *outfile, int quality, gdHeifC
+ 		return GD_FALSE;
+ 	}
+ 
+-	rgba = (uint8_t *)heif_image_get_plane_readonly(heif_im, heif_channel_interleaved, NULL);
++	rgba = (uint8_t *)heif_image_get_plane_readonly(heif_im, heif_channel_interleaved, &stride);
+ 	if (!rgba) {
+ 		gd_error("gd-heif cannot get image plane\n");
+ 		heif_image_release(heif_im);
+@@ -357,8 +362,9 @@ static int _gdImageHeifCtx(gdImagePtr im, gdIOCtx *outfile, int quality, gdHeifC
+ 		heif_context_free(heif_ctx);
+ 		return GD_FALSE;
+ 	}
+-	p = rgba;
++	row_start = rgba;
+ 	for (y = 0; y < gdImageSY(im); y++) {
++		p = row_start;
+ 		for (x = 0; x < gdImageSX(im); x++) {
+ 			int c;
+ 			char a;
+@@ -374,6 +380,7 @@ static int _gdImageHeifCtx(gdImagePtr im, gdIOCtx *outfile, int quality, gdHeifC
+ 			*(p++) = gdTrueColorGetBlue(c);
+ 			*(p++) = a;
+ 		}
++		row_start += stride;
+ 	}
+ 	err = heif_context_encode_image(heif_ctx, heif_im, heif_enc, NULL, NULL);
+ 	heif_encoder_release(heif_enc);
+#diff --git a/tests/heif/CMakeLists.txt b/tests/heif/CMakeLists.txt
+#index 4a41528d3..a45b957fb 100644
+#--- a/tests/heif/CMakeLists.txt
+#+++ b/tests/heif/CMakeLists.txt
+#@@ -5,6 +5,7 @@ LIST(APPEND TESTS_FILES
+# 	heif_null
+# 	heif_ptr_double_free
+# 	heif_read
+#+	bug788
+# )
+# ENDIF(HEIF_FOUND)
+# 
+diff --git a/tests/heif/bug788.c b/tests/heif/bug788.c
+new file mode 100644
+index 000000000..5475251b6
+--- /dev/null
++++ b/tests/heif/bug788.c
+@@ -0,0 +1,43 @@
++/**
++ * Bug 788 stride not implemented.
++ */
++
++#include "gd.h"
++#include "gdtest.h"
++
++#include <libheif/heif.h>
++
++int main () {
++	FILE *fp;
++	gdImagePtr in;
++    gdImagePtr dst;
++    gdImagePtr diff;
++    int size;
++    void *data;
++    CuTestImageResult result = {0, 0};
++    fp = gdTestFileOpen2("heif", "bug788.png");
++    in = gdImageCreateFromPng(fp);
++    fclose(fp);
++    fp = fopen("1.png", "wb");
++    gdImagePng(in, fp);
++    fclose(fp);
++    data = gdImageHeifPtrEx(in, &size, 200, GD_HEIF_CODEC_HEVC, GD_HEIF_CHROMA_444);
++
++    dst = gdImageCreateFromHeifPtr(size, data);
++    diff = gdImageCreateTrueColor(gdImageSX(dst), gdImageSY(dst));
++    if (gdTestAssertMsg(dst != NULL, "cannot compare with NULL buffer")) {
++        gdTestImageDiff(in, dst, diff, &result);
++    }
++    fp = fopen("2.png", "wb");
++    gdImageHeif(dst, fp);
++    fclose(fp);
++    fp = fopen("3.png", "wb");
++    gdImagePng(diff, fp);
++    fclose(fp);
++    /* colorspace conversion cannot avoid colors differences, even if we use the same format/colorspace for in and out */
++    gdTestAssertMsg(result.pixels_changed > 30, "pixels changed: %d\n", result.pixels_changed);
++    gdImageDestroy(dst);
++    gdImageDestroy(in);
++    gdImageDestroy(diff);
++    return 0;
++}
+\ No newline at end of file
+From 21633377174354199c3ea3e4b23f64cfaeacc50a Mon Sep 17 00:00:00 2001
+From: "Christoph M. Becker" <cmbecker69@gmx.de>
+Date: Thu, 26 Dec 2024 11:56:38 +0100
+Subject: [PATCH] Avoid segfault of bug788 (#907)
+
+If the heif image can't be created for whatever reason, `dst` is `NULL`
+what causes a segfault when we try to access its dimensions.  We catch
+that with a test assertion, and bail out if that fails.
+---
+ tests/heif/bug788.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/tests/heif/bug788.c b/tests/heif/bug788.c
+index 5475251b6..2e2a9ea6f 100644
+--- a/tests/heif/bug788.c
++++ b/tests/heif/bug788.c
+@@ -24,6 +24,10 @@ int main () {
+     data = gdImageHeifPtrEx(in, &size, 200, GD_HEIF_CODEC_HEVC, GD_HEIF_CHROMA_444);
+ 
+     dst = gdImageCreateFromHeifPtr(size, data);
++    if (!gdTestAssert(dst != NULL)) {
++        gdImageDestroy(in);
++        return gdNumFailures();
++    }
+     diff = gdImageCreateTrueColor(gdImageSX(dst), gdImageSY(dst));
+     if (gdTestAssertMsg(dst != NULL, "cannot compare with NULL buffer")) {
+         gdTestImageDiff(in, dst, diff, &result);

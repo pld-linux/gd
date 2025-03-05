@@ -1,0 +1,297 @@
+From aed71816906f8d86c060b0c51807b79acff7bc64 Mon Sep 17 00:00:00 2001
+From: Pierre Joye <pierre.php@gmail.com>
+Date: Tue, 14 Sep 2021 04:39:31 +0700
+Subject: [PATCH] Fix #764 prevent crash in test code when AVIF encode/decode
+ fails, fix memory leaks
+
+---
+ tests/avif/avif_im2im.c          |  5 +++--
+ tests/avif/compare_avif_to_png.c | 35 +++++---------------------------
+ 2 files changed, 8 insertions(+), 32 deletions(-)
+
+#diff --git a/tests/avif/avif_im2im.c b/tests/avif/avif_im2im.c
+#index 3a07ebdae..2331484d1 100644
+#--- a/tests/avif/avif_im2im.c
+#+++ b/tests/avif/avif_im2im.c
+#@@ -13,7 +13,7 @@
+# 
+# int main()
+# {
+#-	gdImagePtr srcGdIm, destGdIm;
+#+	gdImagePtr srcGdIm = NULL, destGdIm = NULL;
+# 	void *avifImageDataPtr;
+# 	FILE *fp;
+# 	int r, g, b;
+#@@ -38,7 +38,7 @@ int main()
+# 
+# 	// Encode the gd image to an AVIF image in memory.
+# 	avifImageDataPtr = gdImageAvifPtrEx(srcGdIm, &size, 100, 10);
+#-	gdTestAssertMsg(avifImageDataPtr != NULL, "gdImageAvifPtr() returned null\n");
+#+	if (!gdTestAssertMsg(avifImageDataPtr != NULL, "gdImageAvifPtr() returned null\n")) goto exit;
+# 	gdTestAssertMsg(size > 0, "gdImageAvifPtr() returned a non-positive size\n");
+# 
+# 	// Encode the AVIF image back into a gd image.
+#@@ -54,6 +54,7 @@ int main()
+# 	 gdTestImageDiff(srcGdIm, destGdIm, NULL, &result);
+# 	 gdTestAssertMsg(result.pixels_changed == 0, "pixels changed: %d\n", result.pixels_changed);
+# 
+#+exit:
+# 	if (srcGdIm)
+# 		gdImageDestroy(srcGdIm);
+# 
+diff --git a/tests/avif/compare_avif_to_png.c b/tests/avif/compare_avif_to_png.c
+index 6330ea3ee..50a80419d 100644
+--- a/tests/avif/compare_avif_to_png.c
++++ b/tests/avif/compare_avif_to_png.c
+@@ -20,7 +20,7 @@
+ int main() {
+ 	FILE *fp;
+ 	gdImagePtr imFromPng = NULL, imFromAvif = NULL;
+-	void *avifImDataPtr = NULL, *pngImDataPtr = NULL;
++	void *avifImDataPtr = NULL;
+ 	int size;
+ 	char pngFilename[100], avifFilename[100], *pngFilePath;
+ 	char errMsg[4096];
+@@ -56,37 +56,12 @@ int main() {
+ 		gdTestAssertMsg(gdAssertImageEquals(imFromPng, imFromAvif), errMsg);
+ 
+ 		// Then, decode each AVIF into a GD format, and compare that with the orginal PNG.
+-avif2png:
+-
+ 		// Skip this reverse test for now, until we can find images that encode to PNGs losslessly.
+-if (0) {
+-		sprintf(avifFilename, "%s.avif", filenames[i]);
+-		fp = gdTestFileOpen2("avif", avifFilename);
+-		imFromAvif = gdImageCreateFromAvif(fp);
+-		fclose(fp);
+-
+-		strcat(strcpy(errMsg, filenames[i]), ".avif: gdImageCreateFromAvif failed\n");
+-		if (!gdTestAssertMsg(imFromAvif != NULL, errMsg))
+-			continue;
+-
+-		strcat(strcpy(errMsg, filenames[i]), ".avif: Encoded PNG image did not match original AVIF\n");
+-		pngFilePath = gdTestFilePath2("avif", pngFilename);
+-		gdTestAssertMsg(gdAssertImageEqualsToFile(pngFilePath, imFromAvif), errMsg);
+-		free(pngFilePath);
+-}
++avif2png:
++		if (imFromPng) gdImageDestroy(imFromPng);
++		if (imFromAvif) gdImageDestroy(imFromAvif);
++		if (avifImDataPtr) gdFree(avifImDataPtr);
+ 	}
+ 
+-	if (imFromPng)
+-		gdImageDestroy(imFromPng);
+-
+-	if (imFromAvif)
+-		gdImageDestroy(imFromAvif);
+-
+-	if (avifImDataPtr)
+-		gdFree(avifImDataPtr);
+-
+-	if (pngImDataPtr)
+-		gdFree(pngImDataPtr);
+-
+ 	return gdNumFailures();
+ }
+From 4b5b2f122bf5df628d4e07631b599e8ef3144f70 Mon Sep 17 00:00:00 2001
+From: "Christoph M. Becker" <cmbecker69@gmx.de>
+Date: Fri, 10 Jun 2022 13:58:56 +0200
+Subject: [PATCH] Fix #831: gdImageAvif memory leak
+
+First, we must not forget to call `avifImageDestroy()` when we're
+finished with the image.
+
+Then we also need to cater to the allocated `dataBuf`.  To keep track
+of that, we "extend" `avifIO` as `avifIOCtxReader`.  To simplify, and
+to avoid unnecessary allocations, we use `realloc()`.  To better fit
+with GD, we also use the GD memory allocation functions instead of the
+ones provided by libavif.
+---
+ src/gd_avif.c | 52 +++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 34 insertions(+), 18 deletions(-)
+
+diff --git a/src/gd_avif.c b/src/gd_avif.c
+index 593562330..48369feb9 100644
+--- a/src/gd_avif.c
++++ b/src/gd_avif.c
+@@ -159,6 +159,11 @@ static avifBool isAvifError(avifResult result, const char *msg) {
+ }
+ 
+ 
++typedef struct avifIOCtxReader {
++	avifIO io; // this must be the first member for easy casting to avifIO*
++	avifROData rodata;
++} avifIOCtxReader;
++
+ /*
+ 	<readfromCtx> implements the avifIOReadFunc interface by calling the relevant functions
+ 	in the gdIOCtx. Our logic is inspired by avifIOMemoryReaderRead() and avifIOFileReaderRead().
+@@ -174,8 +179,8 @@ static avifBool isAvifError(avifResult result, const char *msg) {
+ */
+ static avifResult readFromCtx(avifIO *io, uint32_t readFlags, uint64_t offset, size_t size, avifROData *out)
+ {
+-	void *dataBuf = NULL;
+ 	gdIOCtx *ctx = (gdIOCtx *) io->data;
++	avifIOCtxReader *reader = (avifIOCtxReader *) io;
+ 
+ 	// readFlags is unsupported
+ 	if (readFlags != 0) {
+@@ -191,28 +196,34 @@ static avifResult readFromCtx(avifIO *io, uint32_t readFlags, uint64_t offset, s
+ 	if (!ctx->seek(ctx, (int) offset))
+ 		return AVIF_RESULT_IO_ERROR;
+ 
+-	dataBuf = avifAlloc(size);
+-	if (!dataBuf) {
++	if (size > reader->rodata.size) {
++		reader->rodata.data = gdRealloc((void *) reader->rodata.data, size);
++		reader->rodata.size = size;
++	}
++	if (!reader->rodata.data) {
+ 		gd_error("avif error - couldn't allocate memory");
+ 		return AVIF_RESULT_UNKNOWN_ERROR;
+ 	}
+ 
+ 	// Read the number of bytes requested.
+ 	// If getBuf() returns a negative value, that means there was an error.
+-	int charsRead = ctx->getBuf(ctx, dataBuf, (int) size);
++	int charsRead = ctx->getBuf(ctx, (void *) reader->rodata.data, (int) size);
+ 	if (charsRead < 0) {
+-		avifFree(dataBuf);
+ 		return AVIF_RESULT_IO_ERROR;
+ 	}
+ 
+-	out->data = dataBuf;
++	out->data = reader->rodata.data;
+ 	out->size = charsRead;
+ 	return AVIF_RESULT_OK;
+ }
+ 
+ // avif.h says this is optional, but it seemed easy to implement.
+ static void destroyAvifIO(struct avifIO *io) {
+-	avifFree(io);
++	avifIOCtxReader *reader = (avifIOCtxReader *) io;
++	if (reader->rodata.data != NULL) {
++		gdFree((void *) reader->rodata.data);
++	}
++	gdFree(reader);
+ }
+ 
+ /* Set up an avifIO object.
+@@ -226,21 +237,23 @@ static void destroyAvifIO(struct avifIO *io) {
+ 
+ // TODO: can we get sizeHint somehow?
+ static avifIO *createAvifIOFromCtx(gdIOCtx *ctx) {
+-	avifIO *io;
++	struct avifIOCtxReader *reader;
+ 
+-	io = gdMalloc(sizeof(*io));
+-	if (io == NULL)
++	reader = gdMalloc(sizeof(*reader));
++	if (reader == NULL)
+ 		return NULL;
+ 
+ 	// TODO: setting persistent=FALSE is safe, but it's less efficient. Is it necessary?
+-	io->persistent = AVIF_FALSE;
+-	io->read = readFromCtx;
+-	io->write = NULL; // this function is currently unused; see avif.h
+-	io->destroy = destroyAvifIO;
+-	io->sizeHint = 0; // sadly, we don't get this information from the gdIOCtx.
+-	io->data = ctx;
+-
+-	return io;
++	reader->io.persistent = AVIF_FALSE;
++	reader->io.read = readFromCtx;
++	reader->io.write = NULL; // this function is currently unused; see avif.h
++	reader->io.destroy = destroyAvifIO;
++	reader->io.sizeHint = 0; // sadly, we don't get this information from the gdIOCtx.
++	reader->io.data = ctx;
++	reader->rodata.data = NULL;
++	reader->rodata.size = 0;
++
++	return (avifIO *) reader;
+ }
+ 
+ 
+@@ -599,6 +612,9 @@ static avifBool _gdImageAvifCtx(gdImagePtr im, gdIOCtx *outfile, int quality, in
+ 	if (avifOutput.data)
+ 		avifRWDataFree(&avifOutput);
+ 
++	if (avifIm)
++		avifImageDestroy(avifIm);
++
+ 	return failed;
+ }
+ 
+From c2867fd56dd3198ca4d09572913166d60fb657f9 Mon Sep 17 00:00:00 2001
+From: "Christoph M. Becker" <cmbecker69@gmx.de>
+Date: Thu, 17 Oct 2024 06:26:21 +0200
+Subject: [PATCH] Check libavif API return values, if available
+
+Prior to libavif 1.1.0, `avifAlloc()` was infallible (it called
+`abort()` on OOM conditions); thus, several API functions which used
+`avifAlloc()` did not report failure.  That changed as of libavif
+1.0.0[1], so checking and handling failure conditions can now be done.
+However, due to `avifAlloc()` being fallible as of libavif 1.1.0, this
+error checking and handling is mandatory to avoid more serious issues.
+
+[1] <https://github.com/AOMediaCodec/libavif/blob/eb02b2ec52df5c0f50b71fbc51321c5ce435aaca/CHANGELOG.md?plain=1#L273-L281>
+---
+ src/gd_avif.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/src/gd_avif.c b/src/gd_avif.c
+index 48369feb9..f0e5f2aaf 100644
+--- a/src/gd_avif.c
++++ b/src/gd_avif.c
+@@ -402,7 +402,13 @@ BGD_DECLARE(gdImagePtr) gdImageCreateFromAvifCtx (gdIOCtx *ctx)
+ 	// (While AVIF image pixel depth can be 8, 10, or 12 bits, GD truecolor images are 8-bit.)
+ 	avifRGBImageSetDefaults(&rgb, decoder->image);
+ 	rgb.depth = 8;
++#if AVIF_VERSION >= 1000000
++	result = avifRGBImageAllocatePixels(&rgb);
++	if (isAvifError(result, "Allocating RGB pixels failed"))
++		goto cleanup;
++#else
+ 	avifRGBImageAllocatePixels(&rgb);
++#endif
+ 
+ 	result = avifImageYUVToRGB(decoder->image, &rgb);
+ 	if (isAvifError(result, "Conversion from YUV to RGB failed"))
+@@ -540,6 +546,10 @@ static avifBool _gdImageAvifCtx(gdImagePtr im, gdIOCtx *outfile, int quality, in
+ 	// Note that MATRIX_COEFFICIENTS_IDENTITY enables lossless conversion from RGB to YUV.
+ 
+ 	avifImage *avifIm = avifImageCreate(gdImageSX(im), gdImageSY(im), 8, subsampling);
++	if (avifIm == NULL) {
++		gd_error("avif error - Creating image failed\n");
++		goto cleanup;
++	}
+ 
+ 	avifIm->colorPrimaries = AVIF_COLOR_PRIMARIES_BT709;
+ 	avifIm->transferCharacteristics = AVIF_TRANSFER_CHARACTERISTICS_SRGB;
+@@ -547,7 +557,13 @@ static avifBool _gdImageAvifCtx(gdImagePtr im, gdIOCtx *outfile, int quality, in
+ 
+ 	avifRGBImageSetDefaults(&rgb, avifIm);
+ 	// this allocates memory, and sets rgb.rowBytes and rgb.pixels.
++#if AVIF_VERSION >= 1000000
++	result = avifRGBImageAllocatePixels(&rgb);
++	if (isAvifError(result, "Allocating RGB pixels failed"))
++		goto cleanup;
++#else
+ 	avifRGBImageAllocatePixels(&rgb);
++#endif
+ 
+ 	// Parse RGB data from the GD image, and copy it into the AVIF RGB image.
+ 	// Convert 7-bit GD alpha channel values to 8-bit AVIF values.
+@@ -574,6 +590,11 @@ static avifBool _gdImageAvifCtx(gdImagePtr im, gdIOCtx *outfile, int quality, in
+ 	// Encode the image in AVIF format.
+ 
+ 	encoder = avifEncoderCreate();
++	if (encoder == NULL) {
++		gd_error("avif error - Creating encoder failed\n");
++		goto cleanup;
++	}
++
+ 	int quantizerQuality = quality == QUALITY_DEFAULT ?
+ 		QUANTIZER_DEFAULT : quality2Quantizer(quality);
+ 
