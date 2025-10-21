@@ -50,9 +50,9 @@ BuildRequires:	tar >= 1:1.22
 %{?with_xpm:BuildRequires:	xorg-lib-libXpm-devel}
 BuildRequires:	xz
 BuildRequires:	zlib-devel
-Requires:	freetype >= 1:2.1.10
-%{?with_avif:Requires:	libavif >= 0.8.2}
-%{?with_heif:Requires:	libheif >= 1.7.0}
+Requires:	freetype%{?_isa} >= 1:2.1.10
+%{?with_avif:Requires:	libavif%{?_isa} >= 0.8.2}
+%{?with_heif:Requires:	libheif%{?_isa} >= 1.7.0}
 Provides:	gd(gif) = %{version}-%{release}
 # versioned by php version rotate_from_php code comes from
 Provides:	gd(imagerotate) = 5.2.0
@@ -97,19 +97,19 @@ Summary(es.UTF-8):	Archivos de inclusión y bibliotecas para desarrollar program
 Summary(pl.UTF-8):	Część biblioteki GD przeznaczona dla developerów
 Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para desenvolver programas usando gd
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	fontconfig-devel
-Requires:	freetype-devel >= 1:2.1.10
-%{?with_avif:Requires:	libavif-devel >= 0.8.2}
-%{?with_heif:Requires:	libheif-devel >= 1.7.0}
-%{?with_libimagequant:Requires:	libimagequant-devel}
-Requires:	libjpeg-devel
-Requires:	libpng-devel
-%{?with_raqm:Requires:	libraqm-devel}
-Requires:	libtiff-devel >= 4
-Requires:	libwebp-devel >= 0.2.0
-%{?with_xpm:Requires:	xorg-lib-libXpm-devel}
-Requires:	zlib-devel
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	fontconfig-devel%{?_isa}
+Requires:	freetype-devel%{?_isa} >= 1:2.1.10
+%{?with_avif:Requires:	libavif-devel%{?_isa} >= 0.8.2}
+%{?with_heif:Requires:	libheif-devel%{?_isa} >= 1.7.0}
+%{?with_libimagequant:Requires:	libimagequant-devel%{?_isa}}
+Requires:	libjpeg-devel%{?_isa}
+Requires:	libpng-devel%{?_isa}
+%{?with_raqm:Requires:	libraqm-devel%{?_isa}}
+Requires:	libtiff-devel%{?_isa} >= 4
+Requires:	libwebp-devel%{?_isa} >= 0.2.0
+%{?with_xpm:Requires:	xorg-lib-libXpm-devel%{?_isa}}
+Requires:	zlib-devel%{?_isa}
 Provides:	gd-devel(gif) = %{version}-%{release}
 Provides:	gd-devel(imagerotate) = 5.2.0
 
@@ -134,7 +134,7 @@ Summary:	Static GD library
 Summary(pl.UTF-8):	Statyczna biblioteka GD
 Summary(pt_BR.UTF-8):	Bibliotecas estáticas para desenvolvimento com libgd
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	gd-static(gif) = %{version}-%{release}
 Provides:	gd-static(imagerotate) = 5.2.0
 
@@ -154,7 +154,7 @@ Summary(es.UTF-8):	Programas utilitarios libgd
 Summary(pl.UTF-8):	Narzędzia używające libgd
 Summary(pt_BR.UTF-8):	Programas utilitários libgd
 Group:		Applications/Graphics
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description progs
 These are utility programs supplied with gd, the image manipulation
