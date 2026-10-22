@@ -1,0 +1,22 @@
+# gdImageClone() writes to dst->polyInts that was never allocated after a polygon fill
+# https://github.com/libgd/libgd/commit/cb47e0882a (#855), plus the allocation check upstream lacks
+--- a/src/gd.c
++++ b/src/gd.c
+@@ -2918,10 +2918,13 @@
+ 		dst->tileColorMap[i] = src->tileColorMap[i];
+ 	}
+ 
+-	if (src->polyAllocated > 0) {
+-		dst->polyAllocated = src->polyAllocated;
+-		for (i = 0; i < src->polyAllocated; i++) {
+-			dst->polyInts[i] = src->polyInts[i];
++	if (src->polyAllocated > 0 && overflow2(sizeof(int), src->polyAllocated) == 0) {
++		dst->polyInts = gdMalloc (sizeof (int) * src->polyAllocated);
++		if (dst->polyInts) {
++			dst->polyAllocated = src->polyAllocated;
++			for (i = 0; i < src->polyAllocated; i++) {
++				dst->polyInts[i] = src->polyInts[i];
++			}
+ 		}
+ 	}
+ 

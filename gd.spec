@@ -18,7 +18,7 @@ Summary(pl.UTF-8):	Biblioteka do tworzenia grafiki w formacie PNG, JPEG
 Summary(pt_BR.UTF-8):	Biblioteca para manipulação de imagens
 Name:		gd
 Version:	2.3.3
-Release:	9
+Release:	10
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/libgd/libgd/releases
@@ -29,6 +29,11 @@ Patch1:		%{name}-loop.patch
 Patch2:		api-breakage.patch
 Patch3:		%{name}-avif.patch
 Patch4:		%{name}-heif.patch
+Patch5:		%{name}-gif-lzw-init.patch
+Patch6:		%{name}-tiff-overflow.patch
+Patch7:		%{name}-transparent-oob.patch
+Patch8:		%{name}-rotate180-uaf.patch
+Patch9:		%{name}-clone-polyints.patch
 URL:		https://libgd.github.io/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -177,6 +182,11 @@ para uso pelos programas que usam a libgd.
 %patch -P2 -p1
 %patch -P3 -p1
 %patch -P4 -p1
+%patch -P5 -p1
+%patch -P6 -p1
+%patch -P7 -p1
+%patch -P8 -p1
+%patch -P9 -p1
 
 %build
 %{__libtoolize}

@@ -1,0 +1,15 @@
+# gdImageColorTransparent() writes im->alpha[-1] on the first call, reached from every GIF with a transparent colour
+# https://github.com/libgd/libgd/commit/e050c86948 (#785)
+--- a/src/gd.c
++++ b/src/gd.c
+@@ -919,7 +919,9 @@
+ 	if (color >= gdMaxColors) {
+ 		return;
+ 	}
+-	im->alpha[im->transparent] = gdAlphaOpaque;
++	if (im->transparent != -1) {
++		im->alpha[im->transparent] = gdAlphaOpaque;
++	}
+ 	im->alpha[color] = gdAlphaTransparent;
+ 	im->transparent = color;
+ }

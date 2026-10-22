@@ -1,0 +1,13 @@
+# gdImageRotateInterpolated() destroys the caller's palette image instead of its clone at 180 degrees, then rotates it
+# https://github.com/libgd/libgd/commit/3a9d9a892b (#810)
+--- a/src/gd_interpolation.c
++++ b/src/gd_interpolation.c
+@@ -1864,7 +1864,7 @@
+ 
+ 		case -18000:
+ 		case  18000:
+-			if (src_cloned) gdImageDestroy(src);
++			if (src_cloned) gdImageDestroy(src_tc);
+ 			return gdImageRotate180(src, 0);
+ 
+ 		case  -9000:

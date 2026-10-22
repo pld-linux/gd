@@ -1,0 +1,15 @@
+# GHSA-xxr2-j7hw-3698: 4 * width * height wraps in createFromTiffRgba() where calloc() does not check it
+# https://github.com/libgd/libgd/commit/22d1379e64
+--- a/src/gd_tiff.c
++++ b/src/gd_tiff.c
+@@ -765,6 +765,10 @@
+ 	uint32_t rgba;
+ 	int success;
+ 
++	if (overflow2(width, height) || overflow2(width * height, sizeof(uint32_t))) {
++		return GD_FAILURE;
++	}
++
+ 	buffer = (uint32_t *) gdCalloc(sizeof(uint32_t), width * height);
+ 	if (!buffer) {
+ 		return GD_FAILURE;
